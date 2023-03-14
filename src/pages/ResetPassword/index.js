@@ -19,7 +19,7 @@ import { resetPasswordResolver } from "../../utils/validator/resetResolver";
 import { auth } from "../../utils/firebase";
 import { AuthContext } from "../../components/Authentication/AuthProvider";
 
-const ResetPassword = ({ location }) => {
+const ResetPassword = () => {
   const {
     handleSubmit,
     register,
@@ -29,20 +29,21 @@ const ResetPassword = ({ location }) => {
   } = useForm({ resolver: resetPasswordResolver });
 
   const history = useHistory();
+  const location = useLocation();
 
   const oobCode = useRef(null);
 
   const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
+  // useEffect(() => {
+  //   const queryParams = new URLSearchParams(location.search);
 
-    oobCode.current = queryParams.get("oobCode");
+  //   oobCode.current = queryParams.get("oobCode");
 
-    if (!oobCode.current) {
-      history.push("/login");
-    }
-  }, []);
+  //   if (!oobCode.current) {
+  //     history.push("/login");
+  //   }
+  // }, []);
 
   const onSubmit = ({ password }) => {
     clearErrors("API_ERROR");
