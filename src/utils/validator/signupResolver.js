@@ -2,10 +2,27 @@ import * as Joi from "joi";
 import { joiResolver } from "@hookform/resolvers/joi";
 
 const signupSchema = Joi.object({
+  username: Joi.string()
+    .alphanum()
+    .min(3)
+    .max(30)
+    .required()
+    .error((errors) => {
+      errors.forEach((err) => {
+        if (err.code === "string.empty") {
+          err.message = "Name is required field";
+        } else if (err.code === "string.min") {
+          err.message = "Name must be at least 3 characters long";
+        } else if (err.code === "string.max") {
+          err.message = "Name must be less than or equal to 30 characters long";
+        }
+      });
+      return errors;
+    }),
   email: Joi.string()
     .email({
       minDomainSegments: 2,
-      tlds: { allow: ["com", "net"] },
+      tlds: { allow: ["com", "net", "dev", "co", "in"] },
     })
     .error((errors) => {
       errors.forEach((err) => {

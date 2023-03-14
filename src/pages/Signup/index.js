@@ -16,8 +16,9 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 
 import { signupResolver } from "../../utils/validator/signupResolver";
-import { auth } from "../../utils/firebase";
+import { auth, db } from "../../utils/firebase";
 import { AuthContext } from "../../components/Authentication/AuthProvider";
+import generateId from "../../utils/generateId";
 
 const Signup = () => {
   const {
@@ -32,12 +33,29 @@ const Signup = () => {
 
   const { user } = useContext(AuthContext);
 
-  const onSubmit = ({ email, password }) => {
+  const onSubmit = ({ username, email, password }) => {
     clearErrors("API_ERROR");
     auth
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
+      .then((resp) => {
         history.push("/");
+        // db.collection("users").add()
+        // Add a new document in collection "cities"
+        const id = generateId();
+        const finalDoc = {
+          name: username.toUpperCase(),
+          email: email,
+          userId: resp.user.uid,
+        }
+        console.log("ID", id);
+        console.log(finalDoc);
+        db.collection("users").add(finalDoc)
+          .then((ref) => {
+            console.log("Document successfully written!", ref.id);
+          })
+          .catch((error) => {
+            console.error("Error writing document: ", error);
+          });
       })
       .catch((err) => {
         setError("API_ERROR", {
@@ -63,7 +81,20 @@ const Signup = () => {
     >
       <Box width={{ base: "90%", md: "40%", lg: "30%" }} shadow="lg" background="white" p={12} rounded={6}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl isInvalid={errors.email}>
+          <FormControl isInvalid={errors.username}>
+            <FormLabel htmlFor="username">Name</FormLabel>
+            <Input
+              type="text"
+              name="username"
+              placeholder="Enter your Full Name"
+              {...register("username")}
+            />
+            <FormErrorMessage>
+              {errors.username && errors.username.message}
+            </FormErrorMessage>
+          </FormControl>
+
+          <FormControl marginTop="2" isInvalid={errors.email}>
             <FormLabel htmlFor="email">Email</FormLabel>
             <Input
               type="email"
