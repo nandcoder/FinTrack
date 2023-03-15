@@ -3,7 +3,6 @@ import { joiResolver } from "@hookform/resolvers/joi";
 
 const signupSchema = Joi.object({
   username: Joi.string()
-    .alphanum()
     .min(3)
     .max(30)
     .required()
