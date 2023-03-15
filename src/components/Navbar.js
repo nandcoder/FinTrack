@@ -3,11 +3,11 @@ import { ButtonGroup, Container, Dropdown, Nav, Navbar, NavLink } from 'react-bo
 import Profile from "../pages/Dashboard/Sections/Profile"
 
 function CollapsibleExample({ setPage }) {
-    const pages = ['Home', 'User', 'Transaction'];
+    const pages = ['Home', 'User', 'Transaction', 'Community'];
     return (
         <Navbar collapseOnSelect expand="lg" bg="success" variant="dark">
             <Container>
-                <Navbar.Brand href='/'>B I L L E R</Navbar.Brand>
+                <Navbar.Brand href='/'>FinTrack</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">

@@ -27,8 +27,6 @@ function StripedRowExample() {
                 console.log("Error getting documents: ", error);
             })
             .finally(() => setTransctions(temp))
-        console.log(user.uid);
-        // console.log(data);
     }, [request]);
 
 
@@ -38,10 +36,10 @@ function StripedRowExample() {
 
 
 
-        <Table class="table align-middle mb-0 bg-white">
+        <Table className="table align-middle mb-0 bg-white">
 
 
-            <thead class="bg-light" >
+            <thead className="bg-light" >
                 <tr>
                     <th>Name</th>
                     <th>Category</th>
@@ -54,21 +52,21 @@ function StripedRowExample() {
             </thead>
             <tbody>
 
-                {transctions?.map((row) => (
-                    <tr>
-                        <td><div class="d-flex align-items-center">
+                {transctions?.map((row, key) => (
+                    <tr key={key}>
+                        <td><div className="d-flex align-items-center">
 
 
 
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1">{row.name}</p>
-                                <p class="text-muted mb-0">928338479</p>
+                            <div className="ms-3">
+                                <p className="fw-bold mb-1">{row.name}</p>
+                                <p className="text-muted mb-0">928338479</p>
                             </div>
 
 
                         </div></td>
-                        <td><p class="fw-bold mb-1">{row.category}</p>
-                            <p class="text-muted mb-0">description</p>
+                        <td><p className="fw-bold mb-1">{row.category}</p>
+                            <p className="text-muted mb-0">description</p>
                         </td>
                         <td>{row.date}</td>
                         <td>
@@ -93,7 +91,7 @@ function StripedRowExample() {
                         <td>{row.amount}</td>
 
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm">Edit</button>
+                            <button type="button" className="btn btn-primary btn-sm">Edit</button>
 
                         </td>
                     </tr>
