@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import { useContext } from "react";
-import { AuthContext } from "../../../components/Authentication/AuthProvider";
+import { AuthContext } from "./AuthProvider";
 
 const Profile = () => {
     const { logout } = useContext(AuthContext);

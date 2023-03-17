@@ -2,28 +2,11 @@ import { useState } from "react";
 import { Button, Container, Modal } from "react-bootstrap";
 import TransactionTable from "../../components/TransactionTable";
 
-const networkRequest = () => {
-};
-
 const Transaction = () => {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const readTransaction = {
-        //   fetch('https://mywebsite.example/endpoint/', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify({
-        //     firstParam: 'yourValue',
-        //     secondParam: 'yourOtherValue',
-        //   })
-        // })
-
-    }
     const addTransaction = () => {
 
 

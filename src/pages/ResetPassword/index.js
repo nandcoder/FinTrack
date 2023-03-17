@@ -13,7 +13,7 @@ import {
 
 import { Link as ReactRouterLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { resetPasswordResolver } from "../../utils/validator/resetResolver";
 import { auth } from "../../utils/firebase";
@@ -29,7 +29,7 @@ const ResetPassword = () => {
   } = useForm({ resolver: resetPasswordResolver });
 
   const history = useHistory();
-  const location = useLocation();
+  // const location = useLocation();
 
   const oobCode = useRef(null);
 

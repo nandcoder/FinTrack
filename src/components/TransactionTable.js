@@ -1,13 +1,13 @@
 import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge';
-import data from '../assets/TransactionData';
+// import data from '../assets/TransactionData';
 import { db } from '../utils/firebase';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from './Authentication/AuthProvider';
 
 function StripedRowExample() {
     const { user } = useContext(AuthContext);
-    const [request, setRequest] = useState(true);
+    // const [request, setRequest] = useState(true);
     const [transctions, setTransctions] = useState([]);
 
 
@@ -27,7 +27,7 @@ function StripedRowExample() {
                 console.log("Error getting documents: ", error);
             })
             .finally(() => setTransctions(temp))
-    }, [request]);
+    }, [user]);
 
 
     return (
