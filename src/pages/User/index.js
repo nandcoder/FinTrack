@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import UserTable from "../../components/UserTable"
 import { Container } from "react-bootstrap";
 const User = () => {

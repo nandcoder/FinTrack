@@ -1,12 +1,12 @@
 import Card from "../../components/Card";
-import { useState } from "react";
+// import { useState } from "react";
 import { Container } from "react-bootstrap";
 import UserTable from "../../components/UserTable";
 import TransactionTable from "../../components/TransactionTable";
 
 const Home = () => {
-    const [spent, setSpent] = useState(0);
-    const [remain, setRemain] = useState(0);
+    // const [spent, setSpent] = useState(0);
+    // const [remain, setRemain] = useState(0);
     const spentLink = "/";
     const remainLink = "/";
 
@@ -21,13 +21,13 @@ const Home = () => {
                 <Card
                     className="fbcard"
                     head="Total Amount Spent"
-                    text={spent}
+                    // text={spent}
                     link={spentLink}
                 />
                 <Card
                     className="fbcard"
                     head="Budget Remaining"
-                    text={remain}
+                    // text={remain}
                     link={remainLink}
                 />
             </Container>
