@@ -1,29 +1,46 @@
 import { useState } from "react";
-import { FormControl, FormLabel, FormErrorMessage, Input, Text, Link, Box } from "@chakra-ui/react";
+import { FormControl, FormLabel, FormErrorMessage, Input, Box } from "@chakra-ui/react";
 import { Button, Container, Modal } from "react-bootstrap";
+// import firebase from "firebase";
 import TransactionTable from "../../components/TransactionTable";
 import { useForm } from "react-hook-form";
 import { addTransactionResolver } from "../../utils/validator/addTransactionResolver";
-import { db } from "../../utils/firebase";
+// import { db } from "../../utils/firebase";
 
 const Transaction = () => {
     const [showAdd, setShowAdd] = useState(false);
-    const [showEdit, setShowEdit] = useState(false);
-    const onSubmit = () => {
-    }
     const handleClose = () => setShowAdd(false);
     const handleShowAdd = () => setShowAdd(true);
     const {
         handleSubmit,
         register,
         formState: { errors, isSubmitting },
-        setError,
-        clearErrors,
+        // setError,
+        // clearErrors,
     } = useForm({ resolver: addTransactionResolver });
     const addTransaction = ({ title, desc, amount, payer, involved }) => {
         console.log(title, desc, amount, payer, involved);
+        // const firstLetter = title.charAt(0);
+        // const firstLetterCap = firstLetter.toUpperCase();
+        // const remainingLetters = title.slice(1);
+        // const finalTitle = firstLetterCap + remainingLetters
+        // const finalDoc = {
+        //     datetime: firebase.database.ServerValue.TIMESTAMP,
+        //     title: finalTitle,
+        //     desc,
+        //     amount,
+        //     paidBy: payer,
+        //     involved,
+        // }
 
-        handleClose()
+        // db.collection("transactions").add(finalDoc)
+        //     .then((ref) => {
+        //         console.log("Document successfully written!", ref.id, ref.data);
+        //     })
+        //     .catch((error) => {
+        //         console.error("Error writing document: ", error);
+        //     })
+        //     .finally(() => handleClose())
 
     }
 
