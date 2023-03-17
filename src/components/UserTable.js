@@ -1,37 +1,33 @@
-// import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
-import data from '../assets/UserData';
+// import data from '../assets/UserData';
+import { db } from '../utils/firebase';
+import { AuthContext } from './Authentication/AuthProvider';
 
 function StripedRowExample() {
+    const { user } = useContext(AuthContext);
     // const [userData, setUserData] = useState([])
     // const [request, setRequest] = useState(true)
-    // const [data, setData] = useState([]);
-    // useEffect(() => {
-    // const fetchApi = async () => {
-    //     // const URL = "https://opentdb.com/api.php?amount=10&&type=multiple";
-    //     const endpoint = `${process.env.BACKEND_URL}/users`
-    //     // const endpoint = `http://localhost:3030/users`
-    //     const response = await fetch(endpoint);
-    //     console.log('response:', response)
-    //     const resJson = await response.json();
-    //     console.log(resJson.data);
-    //     setUserData(resJson.data);
-    // };
-    // fetchApi();
-    // }, [request]);
-    // useEffect(() => {
-    //     //   fetch('https://mywebsite.example/endpoint/', {
-    //     //   method: 'POST',
-    //     //   headers: {
-    //     //     'Accept': 'application/json',
-    //     //     'Content-Type': 'application/json',
-    //     //   },
-    //     //   body: JSON.stringify({
-    //     //     firstParam: 'yourValue',
-    //     //     secondParam: 'yourOtherValue',
-    //     //   })
-    //     // })
-    // }, [request])
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        let temp = [];
+        db.collection("transactions")
+            .where("involved", "array-contains", user.uid)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc.id, " => ", doc.data());
+                    temp.push(doc.data());
+                });
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            })
+            .finally(() => {
+                setData(temp);
+            })
+    }, [user]);
     return (
         <Table striped>
             <thead>
