@@ -12,7 +12,7 @@ function BasicExample({ head, text, link, imgUrl }) {
           {text}
         </Card.Text>
         <Link href={link} isExternal>
-          <Button variant="primary">Go somewhere</Button>
+          {/* <Button variant="primary">Go somewhere</Button> */}
         </Link>
       </Card.Body>
     </Card>
