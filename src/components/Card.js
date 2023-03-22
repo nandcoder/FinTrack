@@ -1,4 +1,4 @@
-import { Link } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
@@ -11,7 +11,7 @@ function BasicExample({ head, text, link, imgUrl }) {
         <Card.Text>
           {text}
         </Card.Text>
-        <Link href={link} isExternal>
+        <Link to={link}>
           <Button variant="primary">Go somewhere</Button>
         </Link>
       </Card.Body>
