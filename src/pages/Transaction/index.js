@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { FormControl, FormLabel, FormErrorMessage, Input, Box } from "@chakra-ui/react";
 import { Button, Container, Modal } from "react-bootstrap";
-// import firebase from "firebase";
+import firebase from "firebase";
 import TransactionTable from "../../components/TransactionTable";
 import { useForm } from "react-hook-form";
 import { addTransactionResolver } from "../../utils/validator/addTransactionResolver";
-// import { db } from "../../utils/firebase";
+import { db } from "../../utils/firebase";
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 const Transaction = () => {
     const [showAdd, setShowAdd] = useState(false);
@@ -20,27 +21,30 @@ const Transaction = () => {
     } = useForm({ resolver: addTransactionResolver });
     const addTransaction = ({ title, desc, amount, payer, involved }) => {
         console.log(title, desc, amount, payer, involved);
-        // const firstLetter = title.charAt(0);
-        // const firstLetterCap = firstLetter.toUpperCase();
-        // const remainingLetters = title.slice(1);
-        // const finalTitle = firstLetterCap + remainingLetters
-        // const finalDoc = {
-        //     datetime: firebase.database.ServerValue.TIMESTAMP,
-        //     title: finalTitle,
-        //     desc,
-        //     amount,
-        //     paidBy: payer,
-        //     involved,
-        // }
+        const firstLetter = title.charAt(0);
+        const firstLetterCap = firstLetter.toUpperCase();
+        const remainingLetters = title.slice(1);
+        const finalTitle = firstLetterCap + remainingLetters
+        const finalDoc = {
+            datetime: firebase.database.ServerValue.TIMESTAMP,
+            title: finalTitle,
+            desc,
+            amount,
+            paidBy: payer,
+            involved,
+        }
 
-        // db.collection("transactions").add(finalDoc)
-        //     .then((ref) => {
-        //         console.log("Document successfully written!", ref.id, ref.data);
-        //     })
-        //     .catch((error) => {
-        //         console.error("Error writing document: ", error);
-        //     })
-        //     .finally(() => handleClose())
+        db.collection("transactions").add(finalDoc)
+            .then((ref) => {
+                console.log("Document successfully written!", ref.id, ref.data);
+            })
+            .catch((error) => {
+                console.error("Error writing document: ", error);
+            })
+            .finally(() => handleClose())
+
+    }
+    const handleFilter = () => {
 
     }
 
@@ -50,12 +54,14 @@ const Transaction = () => {
         <Container>
             <h1>Transactions</h1>
             <Button onClick={handleShowAdd}>+</Button>
+            <Button onClick={handleFilter}><FilterListIcon /></Button>
+
             <Modal show={showAdd} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add Transaction</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <form onSubmit={handleSubmit(addTransaction)}>
+                <form onSubmit={handleSubmit(addTransaction)}>
+                    <Modal.Body>
                         <FormControl isInvalid={errors.title}>
                             <FormLabel htmlFor="title">Title</FormLabel>
                             <Input
@@ -124,7 +130,7 @@ const Transaction = () => {
                         <Box mt="5" color="red.500">
                             {errors.API_ERROR && errors.API_ERROR.message}
                         </Box>
-                        <Button
+                        {/* <Button
                             isLoading={isSubmitting}
                             // onClick={addInvolved}
                             mt={4}
@@ -133,18 +139,18 @@ const Transaction = () => {
                             w="100%"
                         >
                             Add
-                        </Button>
+                        </Button> */}
 
-                    </form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button type="submit" variant="primary">
-                        Submit
-                    </Button>
-                </Modal.Footer>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button isLoading={isSubmitting} type="submit" variant="success">
+                            Submit
+                        </Button>
+                    </Modal.Footer>
+                </form>
             </Modal>
             <TransactionTable />
         </Container>
