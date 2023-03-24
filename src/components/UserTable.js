@@ -40,8 +40,8 @@ function StripedRowExample() {
                 </tr>
             </thead>
             <tbody>
-                {data.map((row) => (
-                    <tr>
+                {data.map((row, key) => (
+                    <tr key={key}>
                         <td>{row.name}</td>
                         <td>{row.date}</td>
                         <td>{row.category}</td>
