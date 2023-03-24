@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import firebase from "firebase";
 import { FormControl, FormLabel, FormErrorMessage, Input, Box } from "@chakra-ui/react";
 import { Badge, Stack } from '@chakra-ui/react'
 import { Button, Modal } from 'react-bootstrap';
@@ -10,7 +9,7 @@ import { AuthContext } from '../../../components/Authentication/AuthProvider';
 
 const AddGroup = ({ show, handleClose }) => {
     const { user } = useContext(AuthContext);
-    const [members, setMembers] = useState([]);
+    // const [members, setMembers] = useState([]);
     const [currEmail, setCurrEmail] = useState('');
     const [mails, setMails] = useState([{ email: user.email, name: "NRJ", userId: user.uid }]);
     const handleChange = (event) => {
@@ -65,15 +64,16 @@ const AddGroup = ({ show, handleClose }) => {
         const firstLetterCap = firstLetter.toUpperCase();
         const remainingLetters = title.slice(1);
         const finalTitle = firstLetterCap + remainingLetters;
+        const arr = [];
         mails.forEach((mail) => {
-            members.push(mail.userId)
+            arr.push(mail.userId)
         })
         const finalDoc = {
             title: finalTitle,
             desc,
             // amount,
             // paidBy: payer,
-            members: members,
+            members: arr,
         }
 
         db.collection("groups").add(finalDoc)

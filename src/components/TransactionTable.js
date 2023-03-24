@@ -35,7 +35,7 @@ function StripedRowExample(props) {
     const { user } = useContext(AuthContext);
     // const [request, setRequest] = useState(true);
     const [transactions, setTransactions] = useState([]);
-    const [users, setUsers] = useState([]);
+    // const [users, setUsers] = useState([]);
 
 
     useEffect(() => {
@@ -73,7 +73,7 @@ function StripedRowExample(props) {
             })
             .finally(() => {
                 setTransactions(temp)
-                setUsers(arr)
+                // setUsers(arr)
             });
 
 
@@ -94,11 +94,11 @@ function StripedRowExample(props) {
         //         .finally(() => setTransactions(temp))
         //     }
     }, [user]);
-    const getUserName = (id) => {
-        console.log(users);
-        // console.log(payer);
-        return 'payer';
-    }
+    // const getUserName = (id) => {
+    //     console.log(users);
+    //     // console.log(payer);
+    //     return 'payer';
+    // }
 
 
     return (
