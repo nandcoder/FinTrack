@@ -16,20 +16,12 @@ function CollapsibleExample({ setPage }) {
                     <Nav className="me-auto">
                         {user && (
                             <>
-                                <NavLink>
-                                    <Link to={'/'}>Home</Link>
-                                </NavLink>
-                                <NavLink>
-                                    <Link to={'/user'}>User</Link>
-                                </NavLink>
-                                <NavLink>
-                                    <Link to={'/transaction'}>Transaction</Link>
-                                </NavLink>
+                                <Link className='nav-router' to={'/'}>Home</Link>
+                                <Link className='nav-router' to={'/user'}>User</Link>
+                                <Link className='nav-router' to={'/transaction'}>Transaction</Link>
                             </>
                         )}
-                        <NavLink>
-                            <Link to={'/community'}>Community</Link>
-                        </NavLink>
+                        <Link className='nav-router' to={'/community'}>Community</Link>
                     </Nav>
                     {user && (
                         <Nav>

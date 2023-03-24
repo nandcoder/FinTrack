@@ -1,73 +1,91 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import firebase from "firebase";
 import { FormControl, FormLabel, FormErrorMessage, Input, Box } from "@chakra-ui/react";
+import { Badge, Stack } from '@chakra-ui/react'
 import { Button, Modal } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { db } from '../../../utils/firebase'
 import { addGroupResolver } from '../../../utils/validator/addGroupResolver';
+import { AuthContext } from '../../../components/Authentication/AuthProvider';
 
 const AddGroup = ({ show, handleClose }) => {
+    const { user } = useContext(AuthContext);
     const [members, setMembers] = useState([]);
     const [currEmail, setCurrEmail] = useState('');
+    const [mails, setMails] = useState([{ email: user.email, name: "NRJ", userId: user.uid }]);
+    const handleChange = (event) => {
+        setCurrEmail(event.target.value)
+    };
     const arr = [];
 
     const {
         handleSubmit,
         register,
         formState: { errors, isSubmitting },
-        // setError,
+        trigger,
+        setError,
         // clearErrors,
     } = useForm({ resolver: addGroupResolver });
 
-    const handleChange = (event) => {
-        console.log(event);
-        setCurrEmail(event.target.email.value)
-        console.log(currEmail)
-    }
+    // const handleChange = (event) => {
+    //     console.log(event.target.value);
+    //     setCurrEmail(event.target.value)
+    //     console.log(currEmail)
+    // }
 
-    const addGroup = ({ title, usersInvolved }) => {
-        console.log(title, usersInvolved);
-        const firstLetter = title.charAt(0);
-        const firstLetterCap = firstLetter.toUpperCase();
-        const remainingLetters = title.slice(1);
-        const finalTitle = firstLetterCap + remainingLetters;
-        const finalDoc = {
-            datetime: firebase.database.ServerValue.TIMESTAMP,
-            title: finalTitle,
-            // desc,
-            // amount,
-            // paidBy: payer,
-            usersInvolved,
-        }
-
-        // db.collection("groups").add(finalDoc)
-        //     .then((ref) => {
-        //         console.log("Document successfully written!", ref.id, ref.data);
-        //     })
-        //     .catch((error) => {
-        //         console.error("Error writing document: ", error);
-        //     })
-        //     .finally(() => handleClose())
-
-    }
     const getUserByEmail = () => {
         db.collection("users")
             .where("email", "==", currEmail)
             .get()
             .then((querySnapshot) => {
+                if (querySnapshot.size === 0) {
+                    setError('involved', { type: 'custom', message: 'Account not found' });
+                }
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                     console.log(doc.id, " => ", doc.data());
-                    setMembers([...members, doc.data()])
+                    // setMembers([...members, doc.data()])
                     arr.push(doc.data());
+                    setMails(prevMails => [...prevMails, doc.data()])
+                    // console.log(arr);
                 });
 
             })
             .catch((error) => {
                 console.log("Error getting documents: ", error);
             })
+            .finally(() => {
+                console.log("mails", mails)
+            })
     }
 
+    const addGroup = ({ title, desc, usersInvolved }) => {
+        console.log(title, usersInvolved);
+        const firstLetter = title.charAt(0);
+        const firstLetterCap = firstLetter.toUpperCase();
+        const remainingLetters = title.slice(1);
+        const finalTitle = firstLetterCap + remainingLetters;
+        mails.forEach((mail) => {
+            members.push(mail.userId)
+        })
+        const finalDoc = {
+            title: finalTitle,
+            desc,
+            // amount,
+            // paidBy: payer,
+            members: members,
+        }
+
+        db.collection("groups").add(finalDoc)
+            .then((ref) => {
+                console.log("Document successfully written!", ref.id, ref.data);
+            })
+            .catch((error) => {
+                console.error("Error writing document: ", error);
+            })
+            .finally(() => handleClose())
+
+    }
 
     return (
         <Modal show={show} onHide={handleClose}>
@@ -102,32 +120,53 @@ const AddGroup = ({ show, handleClose }) => {
                         </FormErrorMessage>
                     </FormControl>
 
-                    <FormControl marginTop="2" isInvalid={errors.amount}>
-                        <FormLabel htmlFor="amount">Amount</FormLabel>
-                        <Input
-                            type="number"
-                            name="amount"
-                            placeholder="Enter Amount"
-                            {...register("amount")}
-                        />
-                        <FormErrorMessage>
-                            {errors.amount && errors.amount.message}
-                        </FormErrorMessage>
-                    </FormControl>
+
 
                     <FormControl mt="2" isInvalid={errors.involved}>
                         <FormLabel htmlFor="involved">Add members to the group</FormLabel>
-                        <Input
+                        {/* <Input
                             type="email"
                             name="involved"
+                            value={currEmail}
                             onChange={handleChange}
                             placeholder="Enter email to add member"
                             {...register("involved")}
+                        /> 
+                        <input
+                            value={currEmail}
+                            onChange={handleChange}
+                            type="email"
+                            name="involved"
+                            placeholder="Here is a sample placeholder"
+                            size="sm"
+                            {...register('involved')}
+                        /> 
+                        
+                        <input type="text" name="desc" placeholder="Add a note" id="field-4" class="chakra-input css-1c6j008" autocomplete="off"></input>*/}
+                        <input
+                            type={"email"}
+                            name="involved"
+                            id="field-5"
+                            {...register('involved')}
+                            onChange={handleChange}
+                            className="chakra-input css-1c6j008"
+                            value={currEmail}
+                            placeholder={"Enter email to add"}
                         />
-                        <Button onClick={getUserByEmail}>+</Button>
+                        <Button onClick={() => {
+                            trigger("involved")
+                                .then(() => getUserByEmail())
+                                .catch((err) => console.log("Error: ", err))
+                        }}>+</Button>
                         <FormErrorMessage>
                             {errors.involved && errors.involved.message}
                         </FormErrorMessage>
+                        <Stack direction='row'>
+                            <Badge>Default</Badge>
+                            <Badge colorScheme='green'>Success</Badge>
+                            <Badge colorScheme='red'>Removed</Badge>
+                            <Badge colorScheme='purple'>New</Badge>
+                        </Stack>
                     </FormControl>
 
                     <Box mt="5" color="red.500">

@@ -2,6 +2,21 @@ import * as Joi from "joi";
 import { joiResolver } from "@hookform/resolvers/joi";
 
 const addGroupSchema = Joi.object({
+    involved: Joi.string()
+        .email({
+            minDomainSegments: 2,
+            tlds: { allow: ["com", "net", "dev", "co", "in"] },
+        })
+        .error((errors) => {
+            errors.forEach((err) => {
+                if (err.code === "string.empty") {
+                    err.message = "Email is required field";
+                } else if (err.code === "string.email") {
+                    err.message = "Please Enter a valid email";
+                }
+            });
+            return errors;
+        }),
     title: Joi.string()
         .min(3)
         .max(30)
@@ -27,45 +42,15 @@ const addGroupSchema = Joi.object({
             });
             return errors;
         }),
-    amount: Joi.number()
-        .required()
+    mails: Joi.array()
+        .items(Joi.string())
+        .unique()
+        .min(1)
         .error((errors) => {
             errors.forEach((err) => {
-                if (err.code === "string.empty") {
-                    err.message = "Amount is required"
-                }
+                // if(err.code==="array")
             })
-        }),
-    payer: Joi.string()
-        .email({
-            minDomainSegments: 2,
-            tlds: { allow: ["com", "net", "dev", "co", "in"] },
         })
-        .error((errors) => {
-            errors.forEach((err) => {
-                if (err.code === "string.empty") {
-                    err.message = "Email is required field";
-                } else if (err.code === "string.email") {
-                    err.message = "Please Enter a valid email";
-                }
-            });
-            return errors;
-        }),
-    involved: Joi.string()
-        .email({
-            minDomainSegments: 2,
-            tlds: { allow: ["com", "net", "dev", "co", "in"] },
-        })
-        .error((errors) => {
-            errors.forEach((err) => {
-                if (err.code === "string.empty") {
-                    err.message = "Email is required field";
-                } else if (err.code === "string.email") {
-                    err.message = "Please Enter a valid email";
-                }
-            });
-            return errors;
-        }),
 });
 
 export const addGroupResolver = joiResolver(addGroupSchema);
