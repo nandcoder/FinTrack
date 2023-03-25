@@ -7,13 +7,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from "./components/Authentication/AuthProvider";
 import "./index.css"
+import { GroupProvider } from "./pages/Home/Sections/GroupCard";
 
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider>
       <BrowserRouter>
         <AuthProvider>
-          <App />
+          <GroupProvider>
+            <App />
+          </GroupProvider>
         </AuthProvider>
       </BrowserRouter>
     </ChakraProvider>

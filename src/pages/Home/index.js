@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, Container, Spinner } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
+import { CircularProgress } from "@chakra-ui/react";
 import Card from "../../components/Card";
 import AddGroup from "./Sections/AddGroup";
 import GroupCard from "./Sections/GroupCard";
@@ -43,6 +44,7 @@ const Home = () => {
     return (
         <>
             <Container id="feedback">
+                <div class="absolute top-0 left-0 w-full h-full box-border grid place-items-center"><div class="text-center text-white font-Inter"><h1 class="text-3xl lg:text-4xl xl:text-5xl font-normal">Port Blair &amp; Swaraj Dweep</h1><h3 class="text-xl lg:text-xl xl:text-2xl lg:mt-3 font-normal">5 Days</h3></div></div>
                 <Card
                     className="fbcard"
                     head="Total Expenditure"
@@ -66,13 +68,12 @@ const Home = () => {
             <br />
             <Container id="content">
                 <div className="groups-wrapper">
-                    <Button onClick={handleShow}>+</Button>
+                    <Button style={{ position: "fixed", width: "50px", height: "50px", right: "10%", bottom: "10%", borderRadius: "50%", backgroundColor: "cyan", fontSize: "1.5rem" }} onClick={handleShow}>+</Button>
                     {show && <AddGroup show={show} handleClose={handleClose} />}
-                    {loading ? <Spinner variant="info" /> :
-                        groups?.map((group, key) => (
-                            <GroupCard name={group.data.title} key={key} />
+                    {loading ? <CircularProgress left={"50%"} top={"50%"} isIndeterminate size='100px' thickness='4px' /> :
+                        groups?.map((group) => (
+                            <GroupCard id={group.id} data={group.data} key={group.id} />
                         ))}
-                    { }
                 </div>
             </Container>
         </>
