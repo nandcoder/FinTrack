@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react'
 import { FormControl, FormLabel, FormErrorMessage, Input, Box } from "@chakra-ui/react";
-import { Badge, Stack } from '@chakra-ui/react'
 import { Button, Modal } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { db } from '../../../utils/firebase'
 import { addGroupResolver } from '../../../utils/validator/addGroupResolver';
 import { AuthContext } from '../../../components/Authentication/AuthProvider';
+import ListMail from './ListMail';
 
 const AddGroup = ({ show, handleClose }) => {
     const { user } = useContext(AuthContext);
@@ -15,7 +15,6 @@ const AddGroup = ({ show, handleClose }) => {
     const handleChange = (event) => {
         setCurrEmail(event.target.value)
     };
-    const arr = [];
 
     const {
         handleSubmit,
@@ -25,12 +24,6 @@ const AddGroup = ({ show, handleClose }) => {
         setError,
         // clearErrors,
     } = useForm({ resolver: addGroupResolver });
-
-    // const handleChange = (event) => {
-    //     console.log(event.target.value);
-    //     setCurrEmail(event.target.value)
-    //     console.log(currEmail)
-    // }
 
     const getUserByEmail = () => {
         db.collection("users")
@@ -43,10 +36,7 @@ const AddGroup = ({ show, handleClose }) => {
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                     console.log(doc.id, " => ", doc.data());
-                    // setMembers([...members, doc.data()])
-                    arr.push(doc.data());
                     setMails(prevMails => [...prevMails, doc.data()])
-                    // console.log(arr);
                 });
 
             })
@@ -58,8 +48,9 @@ const AddGroup = ({ show, handleClose }) => {
             })
     }
 
-    const addGroup = ({ title, desc, usersInvolved }) => {
-        console.log(title, usersInvolved);
+
+    const addGroup = ({ title, desc }) => {
+        console.log(title, desc);
         const firstLetter = title.charAt(0);
         const firstLetterCap = firstLetter.toUpperCase();
         const remainingLetters = title.slice(1);
@@ -71,8 +62,6 @@ const AddGroup = ({ show, handleClose }) => {
         const finalDoc = {
             title: finalTitle,
             desc,
-            // amount,
-            // paidBy: payer,
             members: arr,
         }
 
@@ -124,25 +113,6 @@ const AddGroup = ({ show, handleClose }) => {
 
                     <FormControl mt="2" isInvalid={errors.involved}>
                         <FormLabel htmlFor="involved">Add members to the group</FormLabel>
-                        {/* <Input
-                            type="email"
-                            name="involved"
-                            value={currEmail}
-                            onChange={handleChange}
-                            placeholder="Enter email to add member"
-                            {...register("involved")}
-                        /> 
-                        <input
-                            value={currEmail}
-                            onChange={handleChange}
-                            type="email"
-                            name="involved"
-                            placeholder="Here is a sample placeholder"
-                            size="sm"
-                            {...register('involved')}
-                        /> 
-                        
-                        <input type="text" name="desc" placeholder="Add a note" id="field-4" class="chakra-input css-1c6j008" autocomplete="off"></input>*/}
                         <input
                             type={"email"}
                             name="involved"
@@ -161,27 +131,12 @@ const AddGroup = ({ show, handleClose }) => {
                         <FormErrorMessage>
                             {errors.involved && errors.involved.message}
                         </FormErrorMessage>
-                        <Stack direction='row'>
-                            <Badge>Default</Badge>
-                            <Badge colorScheme='green'>Success</Badge>
-                            <Badge colorScheme='red'>Removed</Badge>
-                            <Badge colorScheme='purple'>New</Badge>
-                        </Stack>
+                        {mails && <ListMail mails={mails} />}
                     </FormControl>
 
                     <Box mt="5" color="red.500">
                         {errors.API_ERROR && errors.API_ERROR.message}
                     </Box>
-                    {/* <Button
-                            isLoading={isSubmitting}
-                            // onClick={addInvolved}
-                            mt={4}
-                            variant="info"
-                            type="submit"
-                            w="100%"
-                        >
-                            Add
-                        </Button> */}
 
                 </Modal.Body>
                 <Modal.Footer>

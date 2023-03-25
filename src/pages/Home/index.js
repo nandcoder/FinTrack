@@ -22,7 +22,7 @@ const Home = () => {
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
-                    temp.push(doc.data());
+                    temp.push({ id: doc.id, data: doc.data() });
                 });
             })
             .catch((error) => {
@@ -70,7 +70,7 @@ const Home = () => {
                     {show && <AddGroup show={show} handleClose={handleClose} />}
                     {loading ? <Spinner variant="info" /> :
                         groups?.map((group, key) => (
-                            <GroupCard name={group.title} key={key} />
+                            <GroupCard name={group.data.title} key={key} />
                         ))}
                     { }
                 </div>
