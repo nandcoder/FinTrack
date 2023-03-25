@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Spinner } from "react-bootstrap";
 import Card from "../../components/Card";
 import AddGroup from "./Sections/AddGroup";
 import GroupCard from "./Sections/GroupCard";
@@ -8,7 +8,8 @@ import { AuthContext } from "../../components/Authentication/AuthProvider";
 
 const Home = () => {
     const { user } = useContext(AuthContext);
-    const [groups, setGroups] = useState([{ name: "123" }]);
+    const [groups, setGroups] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -29,6 +30,7 @@ const Home = () => {
             })
             .finally(() => {
                 setGroups(temp)
+                setLoading(false)
             });
 
     }, [user]);
@@ -66,9 +68,11 @@ const Home = () => {
                 <div className="groups-wrapper">
                     <Button onClick={handleShow}>+</Button>
                     {show && <AddGroup show={show} handleClose={handleClose} />}
-                    {groups?.map((group, key) => (
-                        <GroupCard name={group.title} key={key} />
-                    ))}
+                    {loading ? <Spinner variant="info" /> :
+                        groups?.map((group, key) => (
+                            <GroupCard name={group.title} key={key} />
+                        ))}
+                    { }
                 </div>
             </Container>
         </>
