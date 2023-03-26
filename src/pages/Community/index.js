@@ -1,10 +1,11 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
+import { Heading } from '@chakra-ui/react'
 
 const Community = () => {
     return (
         <Container>
-            <h1>Community</h1>
+            <Heading margin={'2%'}>Community</Heading>
         </Container>
     )
 }

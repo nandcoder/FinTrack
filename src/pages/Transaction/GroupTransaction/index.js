@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FormControl, FormLabel, FormErrorMessage, Input, Box, Heading } from "@chakra-ui/react";
 import { Button, Container, Modal } from "react-bootstrap";
 import firebase from "firebase";
-import TransactionTable from "../../components/TransactionTable";
 import { useForm } from "react-hook-form";
-import { addTransactionResolver } from "../../utils/validator/addTransactionResolver";
-import { db } from "../../utils/firebase";
-import FilterListIcon from '@mui/icons-material/FilterList';
+import { addTransactionResolver } from "../../../utils/validator/addTransactionResolver";
+import { db } from "../../../utils/firebase";
+import GroupTable from "../../../components/GroupTable";
+import { useParams } from "react-router-dom";
+import { GroupContext } from "../../Home/Sections/GroupCard";
 
-const Transaction = () => {
+const GroupTransaction = () => {
+    const { id } = useParams();
+    const { currentGroup } = useContext(GroupContext);
+
     const [showAdd, setShowAdd] = useState(false);
     const handleClose = () => setShowAdd(false);
     const handleShowAdd = () => setShowAdd(true);
@@ -44,17 +48,17 @@ const Transaction = () => {
             .finally(() => handleClose())
 
     }
-    const handleFilter = () => {
+    // const handleFilter = () => {
 
-    }
+    // }
+    console.log(id);
 
 
 
     return (
         <Container>
-            <Heading display={"inline-block"} margin={"2%"}>Transactions</Heading>
+            <Heading margin={'2%'}>{currentGroup}</Heading>
             <Button style={{ position: "fixed", width: "50px", height: "50px", right: "10%", bottom: "10%", borderRadius: "50%", backgroundColor: "cyan", fontSize: "1.5rem" }} onClick={handleShowAdd}>+</Button>
-            <Button style={{ float: "right", borderRadius: "10px", margin: "2%" }} onClick={handleFilter}><FilterListIcon /></Button>
 
             <Modal show={showAdd} onHide={handleClose}>
                 <Modal.Header closeButton>
@@ -152,9 +156,9 @@ const Transaction = () => {
                     </Modal.Footer>
                 </form>
             </Modal>
-            <TransactionTable />
+            <GroupTable id={id} />
         </Container>
     );
 };
 
-export default Transaction;
+export default GroupTransaction;
