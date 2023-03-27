@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FormControl, FormLabel, FormErrorMessage, Input, Box, Heading } from "@chakra-ui/react";
+import { FormControl, FormLabel, FormErrorMessage, Input, Box, Heading, useToast } from "@chakra-ui/react";
 import { Button, Container, Modal } from "react-bootstrap";
 import firebase from "firebase";
 import TransactionTable from "../../components/TransactionTable";
@@ -7,11 +7,13 @@ import { useForm } from "react-hook-form";
 import { addTransactionResolver } from "../../utils/validator/addTransactionResolver";
 import { db } from "../../utils/firebase";
 import FilterListIcon from '@mui/icons-material/FilterList';
+import AddButton from "../../components/AddButton";
 
 const Transaction = () => {
     const [showAdd, setShowAdd] = useState(false);
     const handleClose = () => setShowAdd(false);
     const handleShowAdd = () => setShowAdd(true);
+    const toast = useToast();
     const {
         handleSubmit,
         register,
@@ -36,6 +38,16 @@ const Transaction = () => {
 
         db.collection("transactions").add(finalDoc)
             .then((ref) => {
+                toast({
+                    title: 'top-right toast',
+                    position: 'top-right',
+                    isClosable: true,
+                    render: () => (
+                        <Box color='white' p={3} bg='blue.500'>
+                            Transaction added successfully!!
+                        </Box>
+                    ),
+                })
                 console.log("Document successfully written!", ref.id, ref.data);
             })
             .catch((error) => {
@@ -53,7 +65,7 @@ const Transaction = () => {
     return (
         <Container>
             <Heading display={"inline-block"} margin={"2%"}>Transactions</Heading>
-            <Button style={{ position: "fixed", width: "50px", height: "50px", right: "10%", bottom: "10%", borderRadius: "50%", backgroundColor: "cyan", fontSize: "1.5rem" }} onClick={handleShowAdd}>+</Button>
+            <AddButton handler={handleShowAdd} />
             <Button style={{ float: "right", borderRadius: "10px", margin: "2%" }} onClick={handleFilter}><FilterListIcon /></Button>
 
             <Modal show={showAdd} onHide={handleClose}>
