@@ -12,6 +12,7 @@ import Transaction from "./pages/Transaction";
 import GroupTransaction from "./pages/Transaction/GroupTransaction";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
+import Footer from "./components/Footer";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/forgot-password" component={ForgotPassword} />
         <Route path="/reset-password" component={ResetPassword} />
       </Switch>
+      <Footer />
     </div>
   );
 }
