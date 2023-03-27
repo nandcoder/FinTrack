@@ -8,6 +8,7 @@ import { db } from "../../../utils/firebase";
 import GroupTable from "../../../components/GroupTable";
 import { useParams } from "react-router-dom";
 import { GroupContext } from "../../Home/Sections/GroupCard";
+import AddButton from "../../../components/AddButton";
 
 const GroupTransaction = () => {
     const { id } = useParams();
@@ -58,7 +59,9 @@ const GroupTransaction = () => {
     return (
         <Container>
             <Heading margin={'2%'}>{currentGroup}</Heading>
-            <Button style={{ position: "fixed", width: "50px", height: "50px", right: "10%", bottom: "10%", borderRadius: "50%", backgroundColor: "cyan", fontSize: "1.5rem" }} onClick={handleShowAdd}>+</Button>
+            <AddButton handler={handleShowAdd} />
+            {/* onClick={handleShowAdd} */}
+            {/* <Button style={{ position: "fixed", width: "50px", height: "50px", right: "10%", bottom: "10%", borderRadius: "50%", backgroundColor: "cyan", fontSize: "1.5rem" }} >+</Button> */}
 
             <Modal show={showAdd} onHide={handleClose}>
                 <Modal.Header closeButton>

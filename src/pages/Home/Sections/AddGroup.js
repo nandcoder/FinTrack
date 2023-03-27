@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { FormControl, FormLabel, FormErrorMessage, Input, Box } from "@chakra-ui/react";
+import { FormControl, FormLabel, FormErrorMessage, Input, Box, useToast } from "@chakra-ui/react";
 import { Button, Modal } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { db } from '../../../utils/firebase'
@@ -12,6 +12,7 @@ const AddGroup = ({ show, handleClose }) => {
     // const [members, setMembers] = useState([]);
     const [currEmail, setCurrEmail] = useState('');
     const [mails, setMails] = useState([{ email: user.email, name: "NRJ", userId: user.uid }]);
+    const toast = useToast();
     const handleChange = (event) => {
         setCurrEmail(event.target.value)
     };
@@ -67,6 +68,16 @@ const AddGroup = ({ show, handleClose }) => {
 
         db.collection("groups").add(finalDoc)
             .then((ref) => {
+                toast({
+                    title: 'top-right toast',
+                    position: 'top-right',
+                    isClosable: true,
+                    render: () => (
+                        <Box color='white' p={3} bg='blue.500'>
+                            Group added successfully!!
+                        </Box>
+                    ),
+                })
                 console.log("Document successfully written!", ref.id, ref.data);
             })
             .catch((error) => {
@@ -81,7 +92,7 @@ const AddGroup = ({ show, handleClose }) => {
             <Modal.Header closeButton>
                 <Modal.Title>Add Group</Modal.Title>
             </Modal.Header>
-            <form onSubmit={handleSubmit(addGroup)}>
+            <form onSubmit={() => handleSubmit(addGroup)}>
                 <Modal.Body>
                     <FormControl isInvalid={errors.title}>
                         <FormLabel htmlFor="title">Title</FormLabel>
