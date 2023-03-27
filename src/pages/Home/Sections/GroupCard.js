@@ -32,13 +32,13 @@ const GroupCard = ({ id, data, item }) => {
                     <div style={{ float: 'right', display: 'flex', flexDirection: 'column', alignItems: 'center', alignContent: 'center' }}>
 
                         <p style={{ display: 'inline-block' }}>{desc}</p>
-                        <p>
+                        <>
                             <AvatarGroup size='md' max={5}>
-                                {members?.map((member) => (
-                                    <Avatar name={member.name} src='' />
+                                {members?.map((member, key) => (
+                                    <Avatar key={key} name={member.name} src='' />
                                 ))}
                             </AvatarGroup>
-                        </p>
+                        </>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', alignContent: 'center' }}>
 
