@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 function CollapsibleExample({ setPage }) {
     const { user } = useContext(AuthContext);
     return (
-        <Navbar collapseOnSelect expand="lg" bg="success" variant="dark">
+        <Navbar sticky='top' collapseOnSelect expand="lg" style={{ background: '#19e819' }} variant="dark">
             <Container>
                 <Navbar.Brand href='/'>FinTrack</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
