@@ -35,7 +35,7 @@ const Login = () => {
   const onSubmit = ({ email, password }) => {
     clearErrors("API_ERROR");
     auth
-        .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(email, password)
       .then(() => {
         history.push("/");
       })
@@ -56,7 +56,7 @@ const Login = () => {
     <Box
       width="100%"
       minH="100vh"
-      background="gray.200"
+      // background="gray.200"
       d="flex"
       alignItems="center"
       justifyContent="center"
@@ -89,7 +89,7 @@ const Login = () => {
             </FormErrorMessage>
           </FormControl>
 
-         
+
 
           <Box mt="5" color="red.500">
             {errors.API_ERROR && errors.API_ERROR.message}

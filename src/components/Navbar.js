@@ -6,12 +6,13 @@ import { AuthContext } from './Authentication/AuthProvider';
 import { Link } from 'react-router-dom';
 import RupeeIcon from '../assets/rupee.png';
 
-function CollapsibleExample({ setPage }) {
+function CollapsibleExample() {
     const { user } = useContext(AuthContext);
+
     return (
         <Navbar sticky='top' collapseOnSelect expand="lg" style={{ background: '#19e819' }} variant="dark">
             <Container>
-                <Navbar.Brand href='/'><Img src={RupeeIcon} height={'5'} width={'5'} display='inline-flex' /> FinTrack</Navbar.Brand>
+                <Navbar.Brand as={Link} to='/'><Img src={RupeeIcon} height={'5'} width={'5'} display='inline-flex' /> FinTrack</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
@@ -29,12 +30,7 @@ function CollapsibleExample({ setPage }) {
                             <Dropdown as={ButtonGroup} align={{ lg: 'end' }}>
                                 <Avatar size='sm' bg="blue.500" />
                                 <Dropdown.Toggle as={NavLink} split variant="success" id="dropdown-split-basic" />
-                                <Dropdown.Menu style={{ padding: 0 }}>
-                                    {/* <Dropdown.Item href="#/action-1">View Profile</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Friends</Dropdown.Item>
-                                <Dropdown.Divider /> */}
-                                    <Profile />
-                                </Dropdown.Menu>
+                                <Profile />
                             </Dropdown>
                         </Nav>
                     )}

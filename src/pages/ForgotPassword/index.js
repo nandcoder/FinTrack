@@ -67,7 +67,7 @@ const ForgotPasword = () => {
     <Box
       width="100%"
       minH="100vh"
-      background="gray.200"
+      // background="gray.200"
       d="flex"
       alignItems="center"
       justifyContent="center"
