@@ -7,11 +7,12 @@ import { addGroupResolver } from '../../../utils/validator/addGroupResolver';
 import { AuthContext } from '../../../components/Authentication/AuthProvider';
 import ListMail from './ListMail';
 
-const AddGroup = ({ show, handleClose }) => {
+const AddGroup = (props) => {
+    const {show , handleClose}= props;
     const { user } = useContext(AuthContext);
     // const [members, setMembers] = useState([]);
     const [currEmail, setCurrEmail] = useState('');
-    const [mails, setMails] = useState([{ email: user.email, name: "NRJ", userId: user.uid }]);
+    const [mails, setMails] = useState([]);
     const toast = useToast();
     const handleChange = (event) => {
         setCurrEmail(event.target.value)
@@ -30,11 +31,12 @@ const AddGroup = ({ show, handleClose }) => {
         db.collection("users")
             .where("email", "==", currEmail)
             .get()
-            .then((querySnapshot) => {
-                if (querySnapshot.size === 0) {
+            .then((data) => {
+                
+                if (data.size === 0) {
                     setError('involved', { type: 'custom', message: 'Account not found' });
                 }
-                querySnapshot.forEach((doc) => {
+                data.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                     console.log(doc.id, " => ", doc.data());
                     setMails(prevMails => [...prevMails, doc.data()])

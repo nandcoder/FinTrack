@@ -4,6 +4,7 @@ import Badge from 'react-bootstrap/Badge';
 import { db } from '../utils/firebase';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from './Authentication/AuthProvider';
+import { Avatar, AvatarGroup } from '@chakra-ui/react';
 // import getUserById from '../assets/queries';
 
 // function descendingComparator(a, b, orderBy) {
@@ -31,7 +32,7 @@ import { AuthContext } from './Authentication/AuthProvider';
 //     });
 //     return stabilizedThis.map((el) => el[0]);
 // }
-function StripedRowExample(props) {
+function TransactionTable(props) {
     const { user } = useContext(AuthContext);
     // const [request, setRequest] = useState(true);
     const [transactions, setTransactions] = useState([]);
@@ -40,7 +41,7 @@ function StripedRowExample(props) {
 
     useEffect(() => {
         let temp = [];
-        let arr = [];
+        const arr = [];
         db.collection("transactions")
             .where("involved", "array-contains", user.uid)
             .get()
@@ -56,12 +57,42 @@ function StripedRowExample(props) {
                                 // payer.data() is never undefined for query payer snapshots
                                 // console.log(payer.id, " => ", payer.data());
                                 arr.push(payer.data());
+
+                                const id = doc.id;
+                                const docData = doc.data();
+                                docData.paidBy = payer.data();
+                                const finalTransaction = {
+                                    id,
+                                    data: docData,
+                                }
+                                console.log('final', finalTransaction);
+                                // calculateAmount(finalTransaction)
+                                // arr.push(finalTransaction);
+                                // temp.push(finalTransaction);
+                                setTransactions((prevTransactions) => [...prevTransactions, finalTransaction])
+                                // console.log(users);
                             });
 
                         })
                         .catch((error) => {
                             console.log("Error getting documents: ", error);
                         })
+
+
+                    // db.collection("users")
+                    //     .where("userId", "==", doc.data().paidBy)
+                    //     .get()
+                    //     .then((querySnapshot) => {
+                    //         querySnapshot.forEach((payer) => {
+                    //             // payer.data() is never undefined for query payer snapshots
+                    //             // console.log(payer.id, " => ", payer.data());
+                    //             arr.push(payer.data());
+                    //         });
+
+                    //     })
+                    //     .catch((error) => {
+                    //         console.log("Error getting documents: ", error);
+                    //     })
 
                     // doc.data() is never undefined for query doc snapshots
                     console.log(doc.id, " => ", doc.data());
@@ -72,7 +103,7 @@ function StripedRowExample(props) {
                 console.log("Error getting documents: ", error);
             })
             .finally(() => {
-                setTransactions(temp)
+                // setTransactions(temp)
                 // setUsers(arr)
             });
 
@@ -124,54 +155,73 @@ function StripedRowExample(props) {
             </thead>
             <tbody>
 
-                {transactions?.map((transaction, key) => (
-                    <tr key={key}>
-                        <td><div className="d-flex align-items-center">
+                {transactions?.map((transaction, key) => {
+                    let payer = 'YOU';
+                    if (transaction.data.paidBy.userId !== user.uid) {
+                        payer = transaction.data.paidBy.name;
+                    }
+                    return (
+                        <tr key={key}>
+                            <td><div className="d-flex align-items-center">
 
 
 
-                            <div className="ms-3">
-                                <p className="fw-bold mb-1">User 1</p>
-                                <p className="text-muted mb-0">928338479</p>
-                            </div>
-
-
-                        </div></td>
-                        <td><p className="fw-bold mb-1">{transaction.category}</p>
-                            <p className="text-muted mb-0">{transaction.desc}</p>
-                        </td>
-                        <td>{transaction.day}</td>
-                        <td>{transaction.date}</td>
-                        <td>
-
-                            {transaction.paidBy === user.uid ? (
-                                <div>
-                                    <Badge pill bg="success">
-                                        {transaction.status}
-                                    </Badge>
+                                <div className="ms-3">
+                                    <p className="fw-bold mb-1">{transaction.data.groupTitle}</p>
+                                    <p className="text-muted mb-0">
+                                        {transaction.data.paidBy.userId === user.uid ? "YOU Paid" : `Paid by: ${transaction.data.paidBy.name}`}
+                                    </p>
                                 </div>
 
-                            ) : (
-                                <div>
-                                    <Badge pill bg="secondary">
-                                        {transaction.status}
-                                    </Badge>
-                                </div>
-                            )}
 
-                        </td>
+                            </div></td>
+                            <td>
+                                <p className="fw-bold mb-1">{transaction.data.category}</p>
+                                <p className="text-muted mb-0">{transaction.data.desc}</p>
+                            </td>
+                            <td>{transaction.data.day}</td>
+                            <td>{transaction.data.date}</td>
+                            <td>
 
-                        <td>{transaction.amount}</td>
+                                {transaction.data.paidBy.userId === user.uid ? (
+                                    <div>
+                                        <Badge pill bg="success">
+                                            {transaction.data.status}
+                                        </Badge>
+                                    </div>
 
-                        <td>
-                            <button type="button" className="btn btn-primary btn-sm">Edit</button>
+                                ) : (
+                                    <div>
+                                        <Badge style={{ background: 'red' }} pill bg="secondary">
+                                            {transaction.data.status}
+                                        </Badge>
+                                    </div>
+                                )}
 
-                        </td>
-                    </tr>
-                ))}
+                            </td>
+
+                            <td style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', alignContent: 'center', justifyContent: 'center' }}>
+
+                                <p>{transaction.data.amount}</p>
+                                <p>
+                                    <AvatarGroup size='sm' max={5}>
+                                        {transaction.data.involved.map((member, key) => (
+                                            <Avatar key={key} name={member.name} src='' />
+                                        ))}
+                                    </AvatarGroup>
+                                </p>
+
+                            </td>
+
+                            <td>
+                                <button type="button" className="btn btn-primary btn-sm">Edit</button>
+                            </td>
+                        </tr>
+                    )
+                })}
             </tbody>
         </Table>
     );
 }
 
-export default StripedRowExample;
+export default TransactionTable;
