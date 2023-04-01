@@ -6,7 +6,7 @@ const ListMail = ({ mails }) => {
     return (
         <Stack direction='row'>
             {mails.map((user) => (
-                <Badge colorScheme={'green'}>{user.email} </Badge>
+                <Badge colorScheme={'green'}>{user.name} </Badge>
             ))}
         </Stack>
     )
