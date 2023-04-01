@@ -23,38 +23,38 @@ const GroupCard = ({ id, data, item }) => {
     const { currentGroup, setCurrentGroup } = useContext(GroupContext);
     const { title, desc, days, members } = data;
 
-    const [ membersName, setMembersName ] = useState([]);
+    const [membersName, setMembersName] = useState([]);
     useEffect(() => {
         // let temp = [];
-        members.forEach((member)=>{
+        members.forEach((member) => {
 
             db.collection("users")
-            .where("userId", "==", member)
-            .get()
-            .then((data) => {
-                data.forEach((doc) => {
-                    // doc.data() is never undefined for query doc snapshots
-                    // temp.push({ id: doc.id, data: doc.data() });
-                    let temp = doc.data().name;
-                    // setMembersName(doc.data())
-                    setMembersName((prevmembersName) => [
-                        ...prevmembersName,
-                       temp,
-                    ]);
-                
-                    console.log(temp);
+                .where("userId", "==", member)
+                .get()
+                .then((data) => {
+                    data.forEach((doc) => {
+                        // doc.data() is never undefined for query doc snapshots
+                        // temp.push({ id: doc.id, data: doc.data() });
+                        let temp = doc.data().name;
+                        // setMembersName(doc.data())
+                        setMembersName((prevmembersName) => [
+                            ...prevmembersName,
+                            temp,
+                        ]);
+
+                        console.log(temp);
+                    });
+                })
+                .catch((error) => {
+                    console.log("Error getting documents: ", error);
+                })
+                .finally(() => {
+                    // setGroups(temp)
+                    // setLoading(false)
                 });
-            })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            })
-            .finally(() => {
-                // setGroups(temp)
-                // setLoading(false)
-            });
 
         })
-       
+
 
     }, [members]);
     // const [currentGroup, setCurrentGroup] = useState('');
@@ -73,14 +73,14 @@ const GroupCard = ({ id, data, item }) => {
                     <div style={{ float: 'right', display: 'flex', flexDirection: 'column', alignItems: 'center', alignContent: 'center' }}>
 
                         <p style={{ display: 'inline-block' }}>{desc}</p>
-                        <p>
+                        <>
                             <AvatarGroup size='md' max={5}>
-                                {membersName?.map((member) => (
+                                {membersName?.map((member, key) => (
 
-                                    <Avatar name={member} src='kzsj' />
+                                    <Avatar key={key} name={member} src='kzsj' />
                                 ))}
                             </AvatarGroup>
-                        </p>
+                        </>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', alignContent: 'center' }}>
 

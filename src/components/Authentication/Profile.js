@@ -34,8 +34,8 @@ const Profile = () => {
 
     return (
         <>
-            {userData?.map((item) => (
-                <Dropdown.Menu style={{ padding: 0, textAlign: "center" }}>
+            {userData?.map((item, key) => (
+                <Dropdown.Menu key={key} style={{ padding: 0, textAlign: "center" }}>
                     <Dropdown.ItemText >{item.data.name}</Dropdown.ItemText>
                     <Dropdown.ItemText >{item.data.email}</Dropdown.ItemText>
                     <Dropdown.Divider />

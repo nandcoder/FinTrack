@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table';
 import { db } from '../utils/firebase';
 import { AuthContext } from './Authentication/AuthProvider';
 
-function StripedRowExample() {
+function UserTable() {
     const { user } = useContext(AuthContext);
     // const [userData, setUserData] = useState([])
     // const [request, setRequest] = useState(true)
@@ -33,20 +33,22 @@ function StripedRowExample() {
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Date</th>
+                    {/* <th>Date</th> */}
                     <th>Category</th>
-                    <th>Status</th>
                     <th>Amount</th>
+                    <th>Status</th>
+                    <th>Details</th>
                 </tr>
             </thead>
             <tbody>
                 {data.map((row, key) => (
                     <tr key={key}>
                         <td>{row.name}</td>
-                        <td>{row.date}</td>
+                        {/* <td>{row.date}</td> */}
                         <td>{row.category}</td>
-                        <td>{row.status}</td>
                         <td>{row.amount}</td>
+                        <td>{row.status}</td>
+                        <td>{row.details}</td>
                     </tr>
                 ))}
             </tbody>
@@ -54,4 +56,4 @@ function StripedRowExample() {
     );
 }
 
-export default StripedRowExample;
+export default UserTable;
