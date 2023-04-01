@@ -3,6 +3,8 @@ import { Avatar, AvatarGroup } from '@chakra-ui/react';
 import { LaunchRounded } from '@mui/icons-material';
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { db } from '../../../utils/firebase';
 
 export const GroupContext = createContext();
 export const GroupProvider = ({ children }) => {
@@ -13,9 +15,48 @@ export const GroupProvider = ({ children }) => {
         </GroupContext.Provider>
     );
 }
+
+
+
+
 const GroupCard = ({ id, data, item }) => {
     const { currentGroup, setCurrentGroup } = useContext(GroupContext);
     const { title, desc, days, members } = data;
+
+    const [ membersName, setMembersName ] = useState([]);
+    useEffect(() => {
+        // let temp = [];
+        members.forEach((member)=>{
+
+            db.collection("users")
+            .where("userId", "==", member)
+            .get()
+            .then((data) => {
+                data.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    // temp.push({ id: doc.id, data: doc.data() });
+                    let temp = doc.data().name;
+                    // setMembersName(doc.data())
+                    setMembersName((prevmembersName) => [
+                        ...prevmembersName,
+                       temp,
+                    ]);
+                
+                    console.log(temp);
+                });
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            })
+            .finally(() => {
+                // setGroups(temp)
+                // setLoading(false)
+            });
+
+        })
+       
+
+    }, [members]);
     // const [currentGroup, setCurrentGroup] = useState('');
     const handleGroup = () => {
         setCurrentGroup(title)
@@ -34,8 +75,9 @@ const GroupCard = ({ id, data, item }) => {
                         <p style={{ display: 'inline-block' }}>{desc}</p>
                         <p>
                             <AvatarGroup size='md' max={5}>
-                                {members?.map((member) => (
-                                    <Avatar name={member.name} src='' />
+                                {membersName?.map((member) => (
+
+                                    <Avatar name={member} src='kzsj' />
                                 ))}
                             </AvatarGroup>
                         </p>

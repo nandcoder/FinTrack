@@ -21,8 +21,8 @@ const Home = () => {
         db.collection("groups")
             .where("members", "array-contains", user.uid)
             .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
+            .then((data) => {
+                data.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                     temp.push({ id: doc.id, data: doc.data() });
                 });
