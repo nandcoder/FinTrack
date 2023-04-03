@@ -155,70 +155,65 @@ function TransactionTable(props) {
             </thead>
             <tbody>
 
-                {transactions?.map((transaction, key) => {
-                    let payer = 'YOU';
-                    if (transaction.data.paidBy.userId !== user.uid) {
-                        payer = transaction.data.paidBy.name;
-                    }
-                    return (
-                        <tr key={key}>
-                            <td><div className="d-flex align-items-center">
+                {transactions?.map((transaction, key) => (
+                    <tr key={key}>
+                        <td><div className="d-flex align-items-center">
 
 
 
-                                <div className="ms-3">
-                                    <p className="fw-bold mb-1">{transaction.data.groupTitle}</p>
-                                    <p className="text-muted mb-0">
-                                        {transaction.data.paidBy.userId === user.uid ? "YOU Paid" : `Paid by: ${transaction.data.paidBy.name}`}
-                                    </p>
+                            <div className="ms-3">
+                                <p className="fw-bold mb-1">{transaction.data.groupTitle}</p>
+                                <p className="text-muted mb-0">
+                                    {transaction.data.paidBy.userId === user.uid ? "YOU Paid" : `Paid by: ${transaction.data.paidBy.name}`}
+                                </p>
+                            </div>
+
+
+                        </div></td>
+                        <td>
+                            <p className="fw-bold mb-1">{transaction.data.category}</p>
+                            <p className="text-muted mb-0">{transaction.data.desc}</p>
+                        </td>
+                        <td>{transaction.data.day}</td>
+                        <td>{transaction.data.date}</td>
+                        <td>
+
+                            {transaction.data.paidBy.userId === user.uid ? (
+                                <div>
+                                    <Badge pill bg="success">
+                                        {transaction.data.status}
+                                    </Badge>
                                 </div>
 
+                            ) : (
+                                <div>
+                                    <Badge style={{ background: 'red' }} pill bg="secondary">
+                                        {transaction.data.status}
+                                    </Badge>
+                                </div>
+                            )}
 
-                            </div></td>
-                            <td>
-                                <p className="fw-bold mb-1">{transaction.data.category}</p>
-                                <p className="text-muted mb-0">{transaction.data.desc}</p>
-                            </td>
-                            <td>{transaction.data.day}</td>
-                            <td>{transaction.data.date}</td>
-                            <td>
+                        </td>
 
-                                {transaction.data.paidBy.userId === user.uid ? (
-                                    <div>
-                                        <Badge pill bg="success">
-                                            {transaction.data.status}
-                                        </Badge>
-                                    </div>
+                        <td style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', alignContent: 'center', justifyContent: 'center' }}>
 
-                                ) : (
-                                    <div>
-                                        <Badge style={{ background: 'red' }} pill bg="secondary">
-                                            {transaction.data.status}
-                                        </Badge>
-                                    </div>
-                                )}
+                            <p>{transaction.data.amount}</p>
+                            <p>
+                                <AvatarGroup size='sm' max={5}>
+                                    {transaction.data.involved.map((member, key) => (
+                                        <Avatar key={key} name={member.name} src='' />
+                                    ))}
+                                </AvatarGroup>
+                            </p>
 
-                            </td>
+                        </td>
 
-                            <td style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', alignContent: 'center', justifyContent: 'center' }}>
-
-                                <p>{transaction.data.amount}</p>
-                                <p>
-                                    <AvatarGroup size='sm' max={5}>
-                                        {transaction.data.involved.map((member, key) => (
-                                            <Avatar key={key} name={member.name} src='' />
-                                        ))}
-                                    </AvatarGroup>
-                                </p>
-
-                            </td>
-
-                            <td>
-                                <button type="button" className="btn btn-primary btn-sm">Edit</button>
-                            </td>
-                        </tr>
-                    )
-                })}
+                        <td>
+                            <button type="button" className="btn btn-primary btn-sm">Edit</button>
+                        </td>
+                    </tr>
+                )
+                )}
             </tbody>
         </Table>
     );

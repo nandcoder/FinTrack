@@ -1,15 +1,13 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { FormControl, FormLabel, FormErrorMessage, Input, Box, useToast } from "@chakra-ui/react";
 import { Button, Modal } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { db } from '../../../utils/firebase'
 import { addGroupResolver } from '../../../utils/validator/addGroupResolver';
-import { AuthContext } from '../../../components/Authentication/AuthProvider';
 import ListMail from './ListMail';
 
 const AddGroup = (props) => {
-    const {show , handleClose}= props;
-    const { user } = useContext(AuthContext);
+    const { show, handleClose } = props;
     // const [members, setMembers] = useState([]);
     const [currEmail, setCurrEmail] = useState('');
     const [mails, setMails] = useState([]);
@@ -32,7 +30,7 @@ const AddGroup = (props) => {
             .where("email", "==", currEmail)
             .get()
             .then((data) => {
-                
+
                 if (data.size === 0) {
                     setError('involved', { type: 'custom', message: 'Account not found' });
                 }

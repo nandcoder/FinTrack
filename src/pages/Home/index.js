@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { CircularProgress } from "@chakra-ui/react";
 import Card from "../../components/Card";
 import AddGroup from "./Sections/AddGroup";
 import GroupCard from "./Sections/GroupCard";
 import { db } from "../../utils/firebase";
 import { AuthContext } from "../../components/Authentication/AuthProvider";
 import AddButton from "../../components/AddButton";
+import Loader from "../../components/Loader";
 
 const Home = () => {
     const { user } = useContext(AuthContext);
@@ -69,7 +69,7 @@ const Home = () => {
                 <div className="groups-wrapper">
                     <AddButton handler={handleShow} />
                     {show && <AddGroup show={show} handleClose={handleClose} />}
-                    {loading ? <CircularProgress left={"50%"} top={"50%"} isIndeterminate size='100px' thickness='4px' /> :
+                    {loading ? <Loader /> :
                         groups?.map((group) => (
                             <GroupCard id={group.id} data={group.data} key={group.id} />
                         ))}
