@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 // import data from '../assets/UserData';
-import { db } from '../utils/firebase';
 import { AuthContext } from './Authentication/AuthProvider';
 import { Badge, Button, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
@@ -27,7 +26,7 @@ function UserTable({ users, transactions }) {
             })
         })
         setLoading(false)
-    }, [user]);
+    }, [user, transactions, users]);
     return (
         <Table style={{ fontSize: '1.5rem' }} striped>
             <thead>
@@ -40,15 +39,10 @@ function UserTable({ users, transactions }) {
             </thead>
             <tbody>
                 {!loading && Object.keys(users)?.map((row, key) => {
-                    console.log("ROW", users[row])
-                    if (users[row].userId !== user.uid) {
-                        const red = {
-                            50: '#ffebee', 100: '#ffcdd2', 200: '#ef9a9a', 300: '#e57373', 400: '#ef5350', 500: '#f44336', 600: '#e53935', 700: '#d32f2f', 800: '#c62828', 900: '#b71c1c', A100: '#ff8a80', A200: '#ff5252', A400: '#ff1744', A700: '#d50000',
-                        }
+                    if (users[row].userId !== user.uid)
                         return (
                             <tr key={key}>
                                 <td>{users[row].name}</td>
-                                {/* <td>{users[row].date}</td> */}
                                 <td>
                                     {users[row].amount >= 0 ? (
                                         <Badge colorScheme='green'>Lent</Badge>
@@ -73,7 +67,7 @@ function UserTable({ users, transactions }) {
                                 </td>
                             </tr>
                         )
-                    }
+                    else return null
                 })}
             </tbody>
         </Table>

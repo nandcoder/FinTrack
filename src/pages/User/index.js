@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { CircularProgress, Heading } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
 import { AuthContext } from "../../components/Authentication/AuthProvider";
 import { db } from "../../utils/firebase";
 import UserTable from "../../components/UserTable"
+import Loader from "../../components/Loader";
 const User = () => {
     const { user } = useContext(AuthContext);
     const [transactions, setTransactions] = useState([]);
@@ -51,7 +52,6 @@ const User = () => {
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                     console.log(doc.id, " => ", doc.data());
-                    const id = doc.id;
                     const data = doc.data();
                     const dataWithAmt = { ...data, amount: 0 };
                     temp[data.userId] = dataWithAmt;
@@ -71,15 +71,7 @@ const User = () => {
     return (
         <Container>
             <Heading margin={'2%'}>Users</Heading>
-            {loading && <CircularProgress left={"50%"} top={"50%"} isIndeterminate size='100px' thickness='4px' />}
-            {/* {transactions?.map((transaction) => (
-                <div>
-                    <p>id:- {transaction.id}</p>
-                    <p>title:- {transaction.data.title} </p>
-                    <p>date:- {transaction.data.day} </p>
-                    <p>payer:- {transaction.data.paidBy.name} </p>
-                </div>
-            ))} */}
+            {loading && <Loader />}
             {!loading && transactions.length !== 0 && Object.keys(users).length !== 0 && (
                 <UserTable users={users} transactions={transactions} />
             )}
