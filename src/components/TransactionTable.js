@@ -81,7 +81,7 @@ function TransactionTable(props) {
         //         })
         //         .finally(() => setTransactions(temp))
         //     }
-    }, [user, users, props.id]);
+    }, [user, users, transactions, props.id]);
     // const getUserName = (id) => {
     //     console.log(users);
     //     // console.log(payer);
