@@ -11,6 +11,7 @@ import Community from "./pages/Community";
 import User from "./pages/User";
 import Transaction from "./pages/Transaction";
 import GroupTransaction from "./pages/Transaction/GroupTransaction";
+import UserTransaction from "./pages/Transaction/UserTransaction";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 
@@ -24,7 +25,8 @@ function App() {
           <ProtectedRoute exact path="/" component={Home} />
           <ProtectedRoute exact path="/user" component={User} />
           <ProtectedRoute exact path="/transaction" component={Transaction} />
-          <ProtectedRoute exact path="/transaction/:id" component={GroupTransaction} />
+          <ProtectedRoute exact path="/transaction/group/:id" component={GroupTransaction} />
+          <ProtectedRoute exact path="/transaction/user/:id" component={UserTransaction} />
           <Route path="/community" component={Community} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />

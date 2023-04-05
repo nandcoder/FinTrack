@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FormControl, FormLabel, FormErrorMessage, Input, Box, Heading, useToast } from "@chakra-ui/react";
 import { Button, Container, Modal } from "react-bootstrap";
 import firebase from "firebase";
@@ -8,8 +8,11 @@ import { addTransactionResolver } from "../../utils/validator/addTransactionReso
 import { db } from "../../utils/firebase";
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AddButton from "../../components/AddButton";
+import { DataContext } from "../../components/Authentication/DataProvider";
+import Loader from "../../components/Loader";
 
 const Transaction = () => {
+    const { transactions, users, requestTransactions, setRequestTransactions } = useContext(DataContext)
     const [showAdd, setShowAdd] = useState(false);
     const handleClose = () => setShowAdd(false);
     const handleShowAdd = () => setShowAdd(true);
@@ -53,7 +56,10 @@ const Transaction = () => {
             .catch((error) => {
                 console.error("Error writing document: ", error);
             })
-            .finally(() => handleClose())
+            .finally(() => {
+                handleClose()
+                setRequestTransactions(!requestTransactions)
+            })
 
     }
     const handleFilter = () => {
@@ -67,7 +73,7 @@ const Transaction = () => {
             <Heading display={"inline-block"} margin={"2%"}>Transactions</Heading>
             <AddButton handler={handleShowAdd} />
             <Button style={{ float: "right", borderRadius: "10px", margin: "2%" }} onClick={handleFilter}><FilterListIcon /></Button>
-
+            <br />
             <Modal show={showAdd} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add Transaction</Modal.Title>
@@ -164,7 +170,8 @@ const Transaction = () => {
                     </Modal.Footer>
                 </form>
             </Modal>
-            <TransactionTable />
+
+            {transactions.length === 0 || Object.keys(users).length === 0 ? <Loader /> : <TransactionTable />}
         </Container>
     );
 };

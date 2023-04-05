@@ -1,10 +1,12 @@
 import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge';
 // import data from '../assets/TransactionData';
-import { db } from '../utils/firebase';
+// import { db } from '../utils/firebase';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from './Authentication/AuthProvider';
+import { DataContext } from './Authentication/DataProvider';
 import { Avatar, AvatarGroup } from '@chakra-ui/react';
+// import Loader from './Loader';
 // import getUserById from '../assets/queries';
 
 // function descendingComparator(a, b, orderBy) {
@@ -34,78 +36,33 @@ import { Avatar, AvatarGroup } from '@chakra-ui/react';
 // }
 function TransactionTable(props) {
     const { user } = useContext(AuthContext);
+    const { transactions, users } = useContext(DataContext)
     // const [request, setRequest] = useState(true);
-    const [transactions, setTransactions] = useState([]);
+    const [transactionData, setTransactionData] = useState([]);
+    // const [loading, setLoading] = useState(true);
     // const [users, setUsers] = useState([]);
 
 
     useEffect(() => {
-        let temp = [];
+        // let temp = [];
         const arr = [];
-        db.collection("transactions")
-            .where("involved", "array-contains", user.uid)
-            .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-
-
-                    db.collection("users")
-                        .where("userId", "==", doc.data().paidBy)
-                        .get()
-                        .then((querySnapshot) => {
-                            querySnapshot.forEach((payer) => {
-                                // payer.data() is never undefined for query payer snapshots
-                                // console.log(payer.id, " => ", payer.data());
-                                arr.push(payer.data());
-
-                                const id = doc.id;
-                                const docData = doc.data();
-                                docData.paidBy = payer.data();
-                                const finalTransaction = {
-                                    id,
-                                    data: docData,
-                                }
-                                console.log('final', finalTransaction);
-                                // calculateAmount(finalTransaction)
-                                // arr.push(finalTransaction);
-                                // temp.push(finalTransaction);
-                                setTransactions((prevTransactions) => [...prevTransactions, finalTransaction])
-                                // console.log(users);
-                            });
-
-                        })
-                        .catch((error) => {
-                            console.log("Error getting documents: ", error);
-                        })
-
-
-                    // db.collection("users")
-                    //     .where("userId", "==", doc.data().paidBy)
-                    //     .get()
-                    //     .then((querySnapshot) => {
-                    //         querySnapshot.forEach((payer) => {
-                    //             // payer.data() is never undefined for query payer snapshots
-                    //             // console.log(payer.id, " => ", payer.data());
-                    //             arr.push(payer.data());
-                    //         });
-
-                    //     })
-                    //     .catch((error) => {
-                    //         console.log("Error getting documents: ", error);
-                    //     })
-
-                    // doc.data() is never undefined for query doc snapshots
-                    console.log(doc.id, " => ", doc.data());
-                    temp.push(doc.data());
-                });
-            })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            })
-            .finally(() => {
-                // setTransactions(temp)
-                // setUsers(arr)
+        if ((transactions.length !== 0) && (Object.keys(users).length !== 0)) {
+            transactions.forEach(transaction => {
+                if (props.id) {
+                    if (transaction.data.involved.includes(props.id)) {
+                        const temp = transaction;
+                        temp.data.paidBy = users[temp.data.paidBy]
+                        arr.push(temp);
+                    }
+                } else {
+                    const temp = transaction;
+                    temp.data.paidBy = users[temp.data.paidBy]
+                    arr.push(temp);
+                }
             });
+            setTransactionData(arr);
+            // setLoading(false)
+        }
 
 
         // const getUserById=(id)=>{
@@ -124,13 +81,13 @@ function TransactionTable(props) {
         //         })
         //         .finally(() => setTransactions(temp))
         //     }
-    }, [user]);
+    }, [user, users, transactions, props.id]);
     // const getUserName = (id) => {
     //     console.log(users);
     //     // console.log(payer);
     //     return 'payer';
     // }
-
+    console.log(transactionData)
 
     return (
 
@@ -155,7 +112,7 @@ function TransactionTable(props) {
             </thead>
             <tbody>
 
-                {transactions?.map((transaction, key) => (
+                {transactionData.length !== 0 && transactionData.map((transaction, key) => (
                     <tr key={key}>
                         <td><div className="d-flex align-items-center">
 
@@ -164,7 +121,7 @@ function TransactionTable(props) {
                             <div className="ms-3">
                                 <p className="fw-bold mb-1">{transaction.data.groupTitle}</p>
                                 <p className="text-muted mb-0">
-                                    {transaction.data.paidBy.userId === user.uid ? "YOU Paid" : `Paid by: ${transaction.data.paidBy.name}`}
+                                    {transaction.data.paidBy && (transaction.data.paidBy.userId === user.uid) ? "YOU Paid" : `Paid by: ${transaction.data.paidBy && transaction.data.paidBy.name}`}
                                 </p>
                             </div>
 
@@ -178,7 +135,7 @@ function TransactionTable(props) {
                         <td>{transaction.data.date}</td>
                         <td>
 
-                            {transaction.data.paidBy.userId === user.uid ? (
+                            {transaction.data.paidBy && transaction.data.paidBy.userId === user.uid ? (
                                 <div>
                                     <Badge pill bg="success">
                                         {transaction.data.status}
@@ -198,13 +155,13 @@ function TransactionTable(props) {
                         <td style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', alignContent: 'center', justifyContent: 'center' }}>
 
                             <p>{transaction.data.amount}</p>
-                            <p>
+                            <div>
                                 <AvatarGroup size='sm' max={5}>
                                     {transaction.data.involved.map((member, key) => (
-                                        <Avatar key={key} name={member.name} src='' />
+                                        <Avatar key={key} name={users[member].name} src='' />
                                     ))}
                                 </AvatarGroup>
-                            </p>
+                            </div>
 
                         </td>
 

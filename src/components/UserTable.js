@@ -9,22 +9,30 @@ import { LaunchRounded } from '@mui/icons-material';
 function UserTable({ users, transactions }) {
     const { user } = useContext(AuthContext);
     const [loading, setLoading] = useState(true)
+    const [userData, setUserData] = useState({});
+    const [transactionData, setTransactionData] = useState([]);
     // const [balances, setBalances] = useState([]);
     useEffect(() => {
-        transactions.forEach(transaction => {
+        const tempTC = transactions;
+        const tempUSR = users;
+        tempTC.forEach(transaction => {
             transaction.data.involved.forEach((personId) => {
-                console.log(users[personId]);
+                console.log(tempUSR[personId]);
                 if (personId === user.uid) {
                 }
                 else {
-                    if (transaction.data.paidBy === user.uid) {
-                        users[personId].amount += transaction.data.amount / transaction.data.involved.length
-                    } else {
-                        users[personId].amount -= transaction.data.amount / transaction.data.involved.length
+                    if (transaction.data.paidBy !== undefined) {
+                        if (transaction.data.paidBy === user.uid) {
+                            tempUSR[personId].amount += transaction.data.amount / transaction.data.involved.length
+                        } else {
+                            tempUSR[personId].amount -= transaction.data.amount / transaction.data.involved.length
+                        }
                     }
                 }
             })
         })
+        setTransactionData(tempTC);
+        setUserData(tempUSR);
         setLoading(false)
     }, [user, transactions, users]);
     return (
@@ -38,23 +46,23 @@ function UserTable({ users, transactions }) {
                 </tr>
             </thead>
             <tbody>
-                {!loading && Object.keys(users)?.map((row, key) => {
-                    if (users[row].userId !== user.uid)
+                {!loading && transactionData.length !== 0 && Object.keys(userData)?.map((row, key) => {
+                    if (userData[row].userId !== user.uid)
                         return (
                             <tr key={key}>
-                                <td>{users[row].name}</td>
+                                <td>{userData[row].name}</td>
                                 <td>
-                                    {users[row].amount >= 0 ? (
+                                    {userData[row].amount >= 0 ? (
                                         <Badge colorScheme='green'>Lent</Badge>
                                     ) : (
                                         <Badge colorScheme='red'>Borrowed</Badge>
                                     )}
                                 </td>
                                 <td>
-                                    {users[row].amount >= 0 ? (
-                                        <Text as={'b'} color='green'>{users[row].amount}</Text>
+                                    {userData[row].amount >= 0 ? (
+                                        <Text as={'b'} color='green'>{userData[row].amount}</Text>
                                     ) : (
-                                        <Text as={'b'} color='red'>{users[row].amount}</Text>
+                                        <Text as={'b'} color='red'>{userData[row].amount}</Text>
                                     )}
                                 </td>
                                 <td>

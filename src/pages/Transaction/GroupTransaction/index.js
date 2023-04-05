@@ -7,12 +7,13 @@ import { addTransactionResolver } from "../../../utils/validator/addTransactionR
 import { db } from "../../../utils/firebase";
 import GroupTable from "../../../components/GroupTable";
 import { useParams } from "react-router-dom";
-import { GroupContext } from "../../Home/Sections/GroupCard";
+// import { DataContext } from "../../Home";
 import AddButton from "../../../components/AddButton";
+import { DataContext } from "../../../components/Authentication/DataProvider";
 
 const GroupTransaction = () => {
     const { id } = useParams();
-    const { currentGroup } = useContext(GroupContext);
+    const { currentGroup } = useContext(DataContext);
 
     const [showAdd, setShowAdd] = useState(false);
     const handleClose = () => setShowAdd(false);
