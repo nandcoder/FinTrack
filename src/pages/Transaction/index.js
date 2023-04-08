@@ -71,8 +71,8 @@ const Transaction = () => {
     return (
         <Container style={{ width: "80%" }}>
             <Heading display={"inline-block"} margin={"2%"}>Transactions</Heading>
-            <Button variant="dark" style={{ float: "right", margin: "10px", borderRadius: "50%", backgroundColor: "black", height: "50px", width: "50px" }} onClick={handleShowAdd}><AddRoundedIcon /></Button>
-            <Button variant="dark" style={{ float: "right", margin: "10px", borderRadius: "50%", backgroundColor: "black", height: "50px", width: "50px" }} onClick={handleFilter}><FilterListIcon /></Button>
+            <Button variant="dark" style={{ float: "right", margin: "10px", borderRadius: "50%", backgroundColor: "black", height: "50px", width: "50px", color: '#04bef8' }} onClick={handleShowAdd}><AddRoundedIcon /></Button>
+            <Button variant="dark" style={{ float: "right", margin: "10px", borderRadius: "50%", backgroundColor: "black", height: "50px", width: "50px", color: '#04bef8' }} onClick={handleFilter}><FilterListIcon /></Button>
             <br />
             <Modal show={showAdd} onHide={handleClose}>
                 <Modal.Header closeButton>
