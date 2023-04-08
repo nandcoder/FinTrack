@@ -7,7 +7,9 @@ import { db } from "../../utils/firebase";
 import { AuthContext } from "../../components/Authentication/AuthProvider";
 import AddButton from "../../components/AddButton";
 import Loader from "../../components/Loader";
-
+import img1 from "../../assets/images/i5.jpeg"
+import img2 from "../../assets/images/p3.jpeg"
+import img3 from "../../assets/images/t3.jpeg"
 // export const DataContext = createContext();
 // export const DataProvider = ({ children }) => {
 //     const { user } = useContext(AuthContext);
@@ -80,6 +82,8 @@ import Loader from "../../components/Loader";
 //     )
 // }
 
+const colorss=["#B794F4","#ADB58D","#90D2DA","#FEB2B2","#FBD38D","#DA90CB","#DB90CB"]
+
 const Home = () => {
     const { user } = useContext(AuthContext);
     const [groups, setGroups] = useState([]);
@@ -119,20 +123,23 @@ const Home = () => {
             <Container id="feedback">
                 <Card
                     className="fbcard"
+                    imgUrl={img3}
                     head="Total Expenditure"
-                    text="10000"
+                    text="₹ 10000"
                     link="/transaction"
                 />
                 <Card
                     className="fbcard"
-                    head="My Expenses"
-                    text="3000"
+                    imgUrl={img1}
+                    head="I OWE PEOPLE"
+                    text="₹ 3000"
                     link="/transaction"
                 />
                 <Card
                     className="fbcard"
-                    head="Amount Pending"
-                    text="800"
+                    imgUrl={img2}
+                    head="PEOPLE OWE ME"
+                    text="₹ 800"
                     link="/user"
                 />
             </Container>
@@ -142,8 +149,8 @@ const Home = () => {
                     <AddButton handler={handleShow} />
                     {show && <AddGroup show={show} handleClose={handleClose} />}
                     {loading ? <Loader /> :
-                        groups?.map((group) => (
-                            <GroupCard id={group.id} data={group.data} key={group.id} />
+                        groups?.map((group,key) => (
+                            <GroupCard id={group.id} data={group.data} key={group.id} color={key} colorss={colorss} />
                         ))}
                 </div>
             </Container>
