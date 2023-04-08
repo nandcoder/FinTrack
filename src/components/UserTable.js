@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
-// import data from '../assets/UserData';
 import { AuthContext } from './Authentication/AuthProvider';
 import { Badge, Button, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
@@ -11,30 +10,35 @@ function UserTable({ users, transactions }) {
     const [loading, setLoading] = useState(true)
     const [userData, setUserData] = useState({});
     const [transactionData, setTransactionData] = useState([]);
+    // const [transactionData, setTransactionData] = useState([]);
     // const [balances, setBalances] = useState([]);
     useEffect(() => {
-        const tempTC = transactions;
-        const tempUSR = users;
-        tempTC.forEach(transaction => {
+        const tempTransactions = transactions;
+        const tempUsers = users;
+        console.log("users=>", users);
+        console.log("transactions=>", transactions);
+        transactions.forEach(transaction => {
             transaction.data.involved.forEach((personId) => {
-                console.log(tempUSR[personId]);
                 if (personId === user.uid) {
                 }
                 else {
-                    if (transaction.data.paidBy !== undefined) {
-                        if (transaction.data.paidBy === user.uid) {
-                            tempUSR[personId].amount += transaction.data.amount / transaction.data.involved.length
-                        } else {
-                            tempUSR[personId].amount -= transaction.data.amount / transaction.data.involved.length
-                        }
+                    if (transaction.data.paidBy === user.uid) {
+                        users[personId].amount += transaction.data.amount / transaction.data.involved.length
+                    } else {
+                        users[personId].amount -= transaction.data.amount / transaction.data.involved.length
                     }
                 }
+                // if (transaction.data.paidBy === user.uid) {
+                //     users[personId].amount += transaction.data.amount / transaction.data.involved.length
+                // } else {
+                //     tempUsers[personId].amount -= transaction.data.amount / transaction.data.involved.length
+                // }
             })
         })
-        setTransactionData(tempTC);
-        setUserData(tempUSR);
+        // setTransactionData(tempTransactions);
+        // setUsers(tempUsers);
         setLoading(false)
-    }, [user, transactions, users]);
+    }, [user, users]);
     return (
         <Table style={{ fontSize: '1.5rem' }} striped>
             <thead>
@@ -46,23 +50,23 @@ function UserTable({ users, transactions }) {
                 </tr>
             </thead>
             <tbody>
-                {!loading && transactionData.length !== 0 && Object.keys(userData)?.map((row, key) => {
-                    if (userData[row].userId !== user.uid)
+                {!loading && transactions.length !== 0 && Object.keys(users)?.map((row, key) => {
+                    if (users[row].userId !== user.uid)
                         return (
                             <tr key={key}>
-                                <td>{userData[row].name}</td>
+                                <td>{users[row].name}</td>
                                 <td>
-                                    {userData[row].amount >= 0 ? (
+                                    {users[row].amount >= 0 ? (
                                         <Badge colorScheme='green'>Lent</Badge>
                                     ) : (
                                         <Badge colorScheme='red'>Borrowed</Badge>
                                     )}
                                 </td>
                                 <td>
-                                    {userData[row].amount >= 0 ? (
-                                        <Text as={'b'} color='green'>{userData[row].amount}</Text>
+                                    {users[row].amount >= 0 ? (
+                                        <Text as={'b'} color='green'>{users[row].amount}</Text>
                                     ) : (
-                                        <Text as={'b'} color='red'>{userData[row].amount}</Text>
+                                        <Text as={'b'} color='red'>{users[row].amount}</Text>
                                     )}
                                 </td>
                                 <td>
