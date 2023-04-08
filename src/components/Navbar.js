@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { Avatar, Img } from '@chakra-ui/react';
-import { ButtonGroup, Container, Dropdown, Nav, Navbar, NavLink } from 'react-bootstrap';
+import { Img } from '@chakra-ui/react';
+import { ButtonGroup, Container, Dropdown, Nav, Navbar } from 'react-bootstrap';
 import Profile from "./Authentication/Profile"
 import { AuthContext } from './Authentication/AuthProvider';
 import { Link } from 'react-router-dom';

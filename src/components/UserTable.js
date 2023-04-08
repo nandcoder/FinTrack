@@ -34,7 +34,7 @@ function UserTable({ users, transactions }) {
         // setTransactionData(tempTransactions);
         // setUsers(tempUsers);
         setLoading(false)
-    }, [user, users]);
+    }, [user, users, transactions]);
     return (
         <Table style={{ fontSize: '1.5rem' }} striped>
             <thead>
