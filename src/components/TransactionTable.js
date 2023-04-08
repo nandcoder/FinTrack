@@ -5,7 +5,9 @@ import Table from 'react-bootstrap/Table';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from './Authentication/AuthProvider';
 import { DataContext } from './Authentication/DataProvider';
-import { Avatar, AvatarGroup, Badge } from '@chakra-ui/react';
+import { Avatar, AvatarGroup, Badge, IconButton } from '@chakra-ui/react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 // import Loader from './Loader';
 // import getUserById from '../assets/queries';
 
@@ -166,7 +168,20 @@ function TransactionTable(props) {
                         </td>
 
                         <td>
-                            <button type="button" className="btn btn-primary btn-sm">Edit</button>
+                            <IconButton
+                                variant='outline'
+                                colorScheme='green'
+                                aria-label='Send email'
+                                icon={<CheckCircleOutlineRoundedIcon />}
+                            />
+                            {" "}
+                            <IconButton
+                                variant='outline'
+                                colorScheme='red'
+                                aria-label='Send email'
+                                icon={<DeleteIcon />}
+                            />
+                            {/* <button type="button" className="btn btn-primary btn-sm">Edit</button> */}
                         </td>
                     </tr>
                 )

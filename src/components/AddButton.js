@@ -4,7 +4,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
 const AddButton = ({ handler }) => {
     return (
-        <Button style={{ position: "fixed", width: "50px", height: "50px", right: "5%", bottom: "15vh", borderRadius: "50%", border: '0', backgroundColor: "black", color: 'white' }} onClick={handler}><AddRoundedIcon /> </Button>
+        <Button style={{ position: "fixed", width: "60px", height: "60px", right: "5%", bottom: "15vh", borderRadius: "50%", border: '0', backgroundColor: "black", color: '#04bef8' }} onClick={handler}><AddRoundedIcon fontSize='large' /> </Button>
     )
 }
 

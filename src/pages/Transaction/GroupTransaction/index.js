@@ -60,8 +60,8 @@ const GroupTransaction = () => {
     return (
         <Container style={{ width: "80%" }}>
             <Heading display={"inline-block"} margin={'2%'}>{currentGroup}</Heading>
-            <Button variant="dark" style={{ float: "right", margin: "10px", borderRadius: "50%", backgroundColor: "black", height: "50px", width: "50px" }} onClick={handleShowAdd}>
-                <AddRoundedIcon color="success" />
+            <Button variant="dark" style={{ float: "right", margin: "10px", borderRadius: "50%", backgroundColor: "black", height: "50px", width: "50px", color: '#04bef8' }} onClick={handleShowAdd}>
+                <AddRoundedIcon />
             </Button>
 
             {/* onClick={handleShowAdd} */}
