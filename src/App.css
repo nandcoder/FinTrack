@@ -3,6 +3,9 @@
   min-height: 70vh;
   /* text-align: center; */
 }
+.groupCardHover:hover{
+  transform: scale(1.2);
+}
 
 /* .App-logo {
   height: 40vmin;
