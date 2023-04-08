@@ -27,7 +27,7 @@ function App() {
           <ProtectedRoute exact path="/transaction" component={Transaction} />
           <ProtectedRoute exact path="/transaction/group/:id" component={GroupTransaction} />
           <ProtectedRoute exact path="/transaction/user/:id" component={UserTransaction} />
-          <Route path="/community" component={Community} />
+          <ProtectedRoute path="/community" component={Community} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="/forgot-password" component={ForgotPassword} />
