@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { Dropdown } from "react-bootstrap";
+import { Dropdown, ButtonGroup, NavLink } from "react-bootstrap";
 import { db } from "../../utils/firebase";
 import { AuthContext } from "./AuthProvider";
+import { Avatar } from "@chakra-ui/react";
 
 const Profile = () => {
     const [userData, setUserData] = useState([]);
@@ -34,16 +35,23 @@ const Profile = () => {
 
     return (
         <>
-            {userData?.map((item, key) => (
-                <Dropdown.Menu key={key} style={{ padding: 0, textAlign: "center" }}>
-                    <Dropdown.ItemText >{item.data.name}</Dropdown.ItemText>
-                    <Dropdown.ItemText >{item.data.email}</Dropdown.ItemText>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => {
-                        logout();
-                    }} >Logout</Dropdown.Item>
-                </Dropdown.Menu>
-            ))}
+            <Dropdown as={ButtonGroup} align={{ lg: 'end' }}>
+                {/* <Avatar name={userData[0].data.name} size='sm' bg="blue.500" /> */}
+                {userData?.map((item, key) => (
+                    <>
+                        <Avatar name={item.data.name} size='sm' bg="blue.500" />
+                        <Dropdown.Toggle as={NavLink} split variant="success" id="dropdown-split-basic" />
+                        <Dropdown.Menu key={key} style={{ padding: 0, textAlign: "center" }}>
+                            <Dropdown.ItemText >{item.data.name}</Dropdown.ItemText>
+                            <Dropdown.ItemText >{item.data.email}</Dropdown.ItemText>
+                            <Dropdown.Divider />
+                            <Dropdown.Item onClick={() => {
+                                logout();
+                            }} >Logout</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </>
+                ))}
+            </Dropdown>
         </>
     );
 };
