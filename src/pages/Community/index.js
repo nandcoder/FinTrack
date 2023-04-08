@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
-import { Button, Card, Container, Form, ListGroup, Modal } from 'react-bootstrap'
+import { Button, Card, Container, ListGroup, Modal } from 'react-bootstrap'
 import { Button as BTN, Box, Avatar, FormControl, FormLabel, Select, FormErrorMessage, Input, useToast } from '@chakra-ui/react'
 // import {  Heading, useToast } from "@chakra-ui/react";
 
@@ -51,7 +51,7 @@ const Community = () => {
                 console.log(temp);
                 setLoading(false)
             });
-    }, [user, requestPosts]);
+    }, [user, requestPosts, groups]);
     // const handleFile = (e) => {
     //     console.log(e.target.value);
     // }
@@ -99,6 +99,7 @@ const Community = () => {
             })
             .finally(() => {
                 handleClose()
+                setRequestGroups(!requestGroups);
                 setRequestPosts(!requestPosts);
                 setLoading(false);
             })
