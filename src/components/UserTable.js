@@ -8,13 +8,9 @@ import { LaunchRounded } from '@mui/icons-material';
 function UserTable({ users, transactions }) {
     const { user } = useContext(AuthContext);
     const [loading, setLoading] = useState(true)
-    const [userData, setUserData] = useState({});
-    const [transactionData, setTransactionData] = useState([]);
     // const [transactionData, setTransactionData] = useState([]);
     // const [balances, setBalances] = useState([]);
     useEffect(() => {
-        const tempTransactions = transactions;
-        const tempUsers = users;
         console.log("users=>", users);
         console.log("transactions=>", transactions);
         transactions.forEach(transaction => {

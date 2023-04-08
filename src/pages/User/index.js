@@ -5,7 +5,7 @@ import { AuthContext } from "../../components/Authentication/AuthProvider";
 // import { db } from "../../utils/firebase";
 import UserTable from "../../components/UserTable"
 import Loader from "../../components/Loader";
-import { DataContext } from "../../components/Authentication/DataProvider";
+// import { DataContext } from "../../components/Authentication/DataProvider";
 import { db } from "../../utils/firebase";
 const User = () => {
     const { user } = useContext(AuthContext);

@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { addTransactionResolver } from "../../utils/validator/addTransactionResolver";
 import { db } from "../../utils/firebase";
 import FilterListIcon from '@mui/icons-material/FilterList';
-import AddButton from "../../components/AddButton";
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { DataContext } from "../../components/Authentication/DataProvider";
 import Loader from "../../components/Loader";
 
@@ -69,10 +69,10 @@ const Transaction = () => {
 
 
     return (
-        <Container>
+        <Container style={{ width: "80%" }}>
             <Heading display={"inline-block"} margin={"2%"}>Transactions</Heading>
-            <AddButton handler={handleShowAdd} />
-            <Button style={{ float: "right", borderRadius: "10px", margin: "2%" }} onClick={handleFilter}><FilterListIcon /></Button>
+            <Button variant="dark" style={{ float: "right", margin: "10px", borderRadius: "50%", backgroundColor: "black", height: "50px", width: "50px" }} onClick={handleShowAdd}><AddRoundedIcon /></Button>
+            <Button variant="dark" style={{ float: "right", margin: "10px", borderRadius: "50%", backgroundColor: "black", height: "50px", width: "50px" }} onClick={handleFilter}><FilterListIcon /></Button>
             <br />
             <Modal show={showAdd} onHide={handleClose}>
                 <Modal.Header closeButton>

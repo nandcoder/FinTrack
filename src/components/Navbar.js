@@ -10,7 +10,7 @@ function CollapsibleExample() {
     const { user } = useContext(AuthContext);
 
     return (
-        <Navbar sticky='top' collapseOnSelect expand="lg" style={{ background: 'rgb(36 36 36)', height: '10vh' }} variant="dark">
+        <Navbar sticky='top' collapseOnSelect expand="lg" style={{ background: 'rgb(36 36 36)', minHeight: '10vh' }} variant="dark">
             <Container>
                 <Navbar.Brand as={Link} to='/'><Img src={RupeeIcon} height={'5'} width={'5'} display='inline-flex' /> FinTrack</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />

@@ -8,7 +8,7 @@ import { db } from "../../../utils/firebase";
 import GroupTable from "../../../components/GroupTable";
 import { useParams } from "react-router-dom";
 // import { DataContext } from "../../Home";
-import AddButton from "../../../components/AddButton";
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { DataContext } from "../../../components/Authentication/DataProvider";
 
 const GroupTransaction = () => {
@@ -58,9 +58,12 @@ const GroupTransaction = () => {
 
 
     return (
-        <Container>
-            <Heading margin={'2%'}>{currentGroup}</Heading>
-            <AddButton handler={handleShowAdd} />
+        <Container style={{ width: "80%" }}>
+            <Heading display={"inline-block"} margin={'2%'}>{currentGroup}</Heading>
+            <Button variant="dark" style={{ float: "right", margin: "10px", borderRadius: "50%", backgroundColor: "black", height: "50px", width: "50px" }} onClick={handleShowAdd}>
+                <AddRoundedIcon color="success" />
+            </Button>
+
             {/* onClick={handleShowAdd} */}
             {/* <Button style={{ position: "fixed", width: "50px", height: "50px", right: "10%", bottom: "10%", borderRadius: "50%", backgroundColor: "cyan", fontSize: "1.5rem" }} >+</Button> */}
 
