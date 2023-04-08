@@ -5,10 +5,12 @@ import { db } from '../../utils/firebase';
 export const DataContext = createContext();
 export const DataProvider = ({ children }) => {
     const { user } = useContext(AuthContext);
+    const [groups, setGroups] = useState([]);
     const [currentGroup, setCurrentGroup] = useState('');
     const [transactions, setTransactions] = useState([]);
     const [friends, setFriends] = useState([]);
     const [users, setUsers] = useState({});
+    const [requestGroups, setRequestGroups] = useState(true);
     const [requestTransactions, setRequestTransactions] = useState(true);
     const [requestUsers, setRequestUsers] = useState(true);
     useEffect(() => {
@@ -68,9 +70,31 @@ export const DataProvider = ({ children }) => {
                 // setLoading(false)
             })
     }, [friends, requestUsers]);
+    useEffect(() => {
+        let temp = [];
+        db.collection("groups")
+            .where("members", "array-contains", user.uid)
+            .get()
+            .then((data) => {
+                data.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    temp.push({ id: doc.id, data: doc.data() });
+                });
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            })
+            .finally(() => {
+                setGroups(temp)
+            });
+    }, [user, requestGroups]);
 
     return (
         <DataContext.Provider value={{
+            groups,
+            setGroups,
+            requestGroups,
+            setRequestGroups,
             transactions,
             setTransactions,
             requestTransactions,
