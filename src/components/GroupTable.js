@@ -1,5 +1,5 @@
 import Table from 'react-bootstrap/Table';
-// import Badge from 'react-bootstrap/Badge';
+import Badge from 'react-bootstrap/Badge';
 // import data from '../assets/TransactionData';
 import { db } from '../utils/firebase';
 import { useContext, useEffect, useState } from 'react';
@@ -10,7 +10,7 @@ import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlin
 // import getUserById from '../assets/queries';
 
 // function descendingComparator(a, b, orderBy) {
-//     if (b[orderBy] < a[orderBy]) {
+//     if (b[orderBy] < a[orderBy]) {f
 //         return -1;
 //     }
 //     if (b[orderBy] > a[orderBy]) {
@@ -118,7 +118,7 @@ function GroupTable({ id }) {
                     <th>Name</th>
                     <th>Category</th>
                     <th>Day</th>
-                    {/* <th>Date</th> */}
+                    <th>Date</th>
                     <th>Status</th>
                     <th>Amount</th>
                     <th>Actions</th>
@@ -144,19 +144,19 @@ function GroupTable({ id }) {
                             <p className="text-muted mb-0">{transaction.data.desc}</p>
                         </td>
                         <td>{transaction.data.day}</td>
-                        {/* <td>{transaction.data.date}</td> */}
+                        <td>{transaction.data.date}</td>
                         <td>
 
-                            {transaction.data.status !== 'pending' ? (
+                            {transaction.data.paidBy === user.uid ? (
                                 <div>
-                                    <Badge variant='solid' colorScheme='green'>
+                                    <Badge pill bg="success">
                                         {transaction.data.status}
                                     </Badge>
                                 </div>
 
                             ) : (
                                 <div>
-                                    <Badge variant='outline' colorScheme='red'>
+                                    <Badge pill bg="secondary">
                                         {transaction.data.status}
                                     </Badge>
                                 </div>

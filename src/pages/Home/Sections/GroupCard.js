@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { DataContext } from '../../../components/Authentication/DataProvider';
 
-const GroupCard = ({ id, data }) => {
+const GroupCard = ({ id, data ,color, colorss}) => {
     const { currentGroup, setCurrentGroup, users } = useContext(DataContext);
     const { title, desc, days, members } = data;
 
@@ -30,11 +30,11 @@ const GroupCard = ({ id, data }) => {
     return (
         <Container fluid>
 
-            <div style={{ width: "100%", minHeight: "25vh", height: 'auto', display: 'flex', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginTop: '2%' }}>
+            <div className='groupCardHover' style={{ width: "100%", minHeight: "25vh", height: 'auto', display: 'flex', alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginTop: '2%' }}>
                 {/* <div className='rounded-xl overflow-hidden h-[65vw] md:h-[35vw] lg:h-72'>
                         <img src={item?.thumbnail} alt={`${item?.title} thumbnail`} className='w-full h-full object-cover' />
                     </div> */}
-                <div style={{ width: "50vw", backgroundColor: 'cyan', borderRadius: '1.5rem', padding: '2rem' }}>
+                <div style={{ width: "50vw", backgroundColor: `${colorss[color%colorss.length]}`, borderRadius: '1.5rem', padding: '2rem' }}>
                     <div style={{ float: 'right', display: 'flex', flexDirection: 'column', alignItems: 'center', alignContent: 'center' }}>
 
                         <>
