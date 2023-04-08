@@ -1,5 +1,5 @@
 import Table from 'react-bootstrap/Table';
-import Badge from 'react-bootstrap/Badge';
+// import Badge from 'react-bootstrap/Badge';
 // import data from '../assets/TransactionData';
 import { db } from '../utils/firebase';
 import { useContext, useEffect, useState } from 'react';
@@ -147,16 +147,16 @@ function GroupTable({ id }) {
                         <td>{transaction.data.date}</td>
                         <td>
 
-                            {transaction.data.paidBy === user.uid ? (
+                            {transaction.data.status !== 'pending' ? (
                                 <div>
-                                    <Badge pill bg="success">
+                                    <Badge variant='solid' colorScheme='green'>
                                         {transaction.data.status}
                                     </Badge>
                                 </div>
 
                             ) : (
                                 <div>
-                                    <Badge pill bg="secondary">
+                                    <Badge variant='outline' colorScheme='red'>
                                         {transaction.data.status}
                                     </Badge>
                                 </div>

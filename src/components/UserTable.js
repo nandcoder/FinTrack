@@ -53,9 +53,9 @@ function UserTable({ users, transactions }) {
                                 <td>{users[row].name}</td>
                                 <td>
                                     {users[row].amount >= 0 ? (
-                                        <Badge colorScheme='green'>Lent</Badge>
+                                        <Badge borderRadius={'50px'} colorScheme='green'>Lent</Badge>
                                     ) : (
-                                        <Badge colorScheme='red'>Borrowed</Badge>
+                                        <Badge borderRadius={'50px'} colorScheme='red'>Borrowed</Badge>
                                     )}
                                 </td>
                                 <td>
