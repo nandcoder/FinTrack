@@ -10,7 +10,7 @@ function CollapsibleExample() {
     const { user } = useContext(AuthContext);
 
     return (
-        <Navbar sticky='top' collapseOnSelect expand="lg" style={{ background: '#19e819' }} variant="dark">
+        <Navbar sticky='top' collapseOnSelect expand="lg" style={{ background: 'rgb(36 36 36)', height: '10vh' }} variant="dark">
             <Container>
                 <Navbar.Brand as={Link} to='/'><Img src={RupeeIcon} height={'5'} width={'5'} display='inline-flex' /> FinTrack</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -28,8 +28,8 @@ function CollapsibleExample() {
                     {user && (
                         <Nav>
                             <Dropdown as={ButtonGroup} align={{ lg: 'end' }}>
-                                <Avatar size='sm' bg="blue.500" />
-                                <Dropdown.Toggle as={NavLink} split variant="success" id="dropdown-split-basic" />
+                                {/* <Avatar size='sm' bg="blue.500" /> */}
+                                {/* <Dropdown.Toggle as={NavLink} split variant="success" id="dropdown-split-basic" /> */}
                                 <Profile />
                             </Dropdown>
                         </Nav>

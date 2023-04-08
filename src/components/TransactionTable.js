@@ -1,11 +1,11 @@
 import Table from 'react-bootstrap/Table';
-import Badge from 'react-bootstrap/Badge';
+// import Badge from 'react-bootstrap/Badge';
 // import data from '../assets/TransactionData';
 // import { db } from '../utils/firebase';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from './Authentication/AuthProvider';
 import { DataContext } from './Authentication/DataProvider';
-import { Avatar, AvatarGroup } from '@chakra-ui/react';
+import { Avatar, AvatarGroup, Badge } from '@chakra-ui/react';
 // import Loader from './Loader';
 // import getUserById from '../assets/queries';
 
@@ -103,7 +103,7 @@ function TransactionTable(props) {
                     <th>Name</th>
                     <th>Category</th>
                     <th>Day</th>
-                    <th>Date</th>
+                    {/* <th>Date</th> */}
                     <th>Status</th>
                     <th>Amount</th>
                     <th>Actions</th>
@@ -132,19 +132,19 @@ function TransactionTable(props) {
                             <p className="text-muted mb-0">{transaction.data.desc}</p>
                         </td>
                         <td>{transaction.data.day}</td>
-                        <td>{transaction.data.date}</td>
+                        {/* <td>{transaction.data.date}</td> */}
                         <td>
 
-                            {transaction.data.paidBy && transaction.data.paidBy.userId === user.uid ? (
+                            {transaction.data.status !== 'pending' ? (
                                 <div>
-                                    <Badge pill bg="success">
+                                    <Badge variant='solid' colorScheme='green'>
                                         {transaction.data.status}
                                     </Badge>
                                 </div>
 
                             ) : (
                                 <div>
-                                    <Badge style={{ background: 'red' }} pill bg="secondary">
+                                    <Badge variant='outline' colorScheme='red'>
                                         {transaction.data.status}
                                     </Badge>
                                 </div>

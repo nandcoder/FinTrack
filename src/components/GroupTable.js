@@ -1,9 +1,10 @@
 import Table from 'react-bootstrap/Table';
-import Badge from 'react-bootstrap/Badge';
+// import Badge from 'react-bootstrap/Badge';
 // import data from '../assets/TransactionData';
 import { db } from '../utils/firebase';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from './Authentication/AuthProvider';
+import { Badge } from '@chakra-ui/react';
 // import getUserById from '../assets/queries';
 
 // function descendingComparator(a, b, orderBy) {
@@ -115,7 +116,7 @@ function GroupTable({ id }) {
                     <th>Name</th>
                     <th>Category</th>
                     <th>Day</th>
-                    <th>Date</th>
+                    {/* <th>Date</th> */}
                     <th>Status</th>
                     <th>Amount</th>
                     <th>Actions</th>
@@ -141,19 +142,19 @@ function GroupTable({ id }) {
                             <p className="text-muted mb-0">{transaction.data.desc}</p>
                         </td>
                         <td>{transaction.data.day}</td>
-                        <td>{transaction.data.date}</td>
+                        {/* <td>{transaction.data.date}</td> */}
                         <td>
 
-                            {transaction.data.paidBy === user.uid ? (
+                            {transaction.data.status !== 'pending' ? (
                                 <div>
-                                    <Badge pill bg="success">
+                                    <Badge variant='solid' colorScheme='green'>
                                         {transaction.data.status}
                                     </Badge>
                                 </div>
 
                             ) : (
                                 <div>
-                                    <Badge pill bg="secondary">
+                                    <Badge variant='outline' colorScheme='red'>
                                         {transaction.data.status}
                                     </Badge>
                                 </div>
