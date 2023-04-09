@@ -38,7 +38,7 @@ const Profile = () => {
             <Dropdown as={ButtonGroup} align={{ lg: 'end' }}>
                 {/* <Avatar name={userData[0].data.name} size='sm' bg="blue.500" /> */}
                 {userData?.map((item, key) => (
-                    <>
+                    <div key={key} style={{ display: "flex" }}>
                         <Avatar name={item.data.name} size='sm' bg="blue.500" />
                         <Dropdown.Toggle as={NavLink} split variant="success" id="dropdown-split-basic" />
                         <Dropdown.Menu key={key} style={{ padding: 0, textAlign: "center" }}>
@@ -49,7 +49,7 @@ const Profile = () => {
                                 logout();
                             }} >Logout</Dropdown.Item>
                         </Dropdown.Menu>
-                    </>
+                    </div>
                 ))}
             </Dropdown>
         </>
