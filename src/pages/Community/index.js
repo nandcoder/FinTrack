@@ -4,8 +4,6 @@ import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineR
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import { Button, Card, Container, ListGroup, Modal } from 'react-bootstrap'
 import { Button as BTN, Box, Avatar, FormControl, FormLabel, Select, FormErrorMessage, Input, useToast, Badge } from '@chakra-ui/react'
-// import {  Heading, useToast } from "@chakra-ui/react";
-
 import { useForm } from "react-hook-form";
 import { addPostResolver } from "../../utils/validator/addPostResolver";
 import { AuthContext } from '../../components/Authentication/AuthProvider';
@@ -27,9 +25,8 @@ const Community = () => {
         handleSubmit,
         register,
         formState: { errors },
-        // setError,
-        // clearErrors,
     } = useForm({ resolver: addPostResolver });
+
     useEffect(() => {
         const temp = [];
         const groupIds = []
@@ -52,9 +49,6 @@ const Community = () => {
                 setLoading(false)
             });
     }, [user, requestPosts, groups]);
-    // const handleFile = (e) => {
-    //     console.log(e.target.value);
-    // }
     const addPost = ({ group, msg, image }) => {
         let groupData;
         if (group !== 'public') {
@@ -71,24 +65,14 @@ const Community = () => {
                 }
             }
         }
-        // console.log(image);
 
         const finalDoc = {
             groupId: groupData.id,
             groupTitle: groupData.data.title,
             authorId: user.uid,
-            authorName: users[user.uid].name,
             message: msg,
-            // imageLink: image,
-
-            // comments: [
-            //     {
-            //         senderId: user.uid,
-            //         comment: "Some message",
-            //     }
-            // ]
+            imageLink: image,
         }
-        if (image) finalDoc.imageLink = image
         db.collection("posts").add(finalDoc)
             .then((ref) => {
                 toast({
@@ -112,12 +96,27 @@ const Community = () => {
                 setRequestPosts(!requestPosts);
                 setLoading(false);
             })
-        // console.log('form submit');
-        // console.log(finalDoc, msg);
+    }
+    const deletePost = (id) => {
+        db.collection("posts").doc(id).delete().then(() => {
+            toast({
+                title: 'top-right toast',
+                position: 'top-right',
+                isClosable: true,
+                render: () => (
+                    <Box color='white' p={3} bg='red.500'>
+                        Post deleted successfully!!
+                    </Box>
+                ),
+            })
+            setRequestPosts(!requestPosts)
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
     }
     return (
         <Container style={{ width: '60%' }}>
-            {/* <Heading margin={'2%'}>Community -(WORK IN PROGRESS) </Heading> */}
             {user && Object.keys(users).length !== 0 && (
                 <Box style={{ display: 'flex', justifyContent: 'space-around' }}>
                     <Avatar name={users[user.uid].name} />
@@ -247,7 +246,7 @@ const Community = () => {
                     {post.data.imageLink !== 'na' && post.data.imageLink !== 'NA' && <Card.Img variant="top" src={post.data.imageLink} />}
                     <Card.Body>
                         <Card.Link as={Button} variant={'primary'} href="#"><ChatBubbleOutlineRoundedIcon /> Comment</Card.Link>
-                        <Card.Link as={Button} variant={'danger'} href="#"><DeleteOutlineRoundedIcon /> Delete</Card.Link>
+                        <Card.Link as={Button} onClick={() => deletePost(post.id)} variant={'danger'}><DeleteOutlineRoundedIcon /> Delete</Card.Link>
                     </Card.Body>
                     <ListGroup className="list-group-flush">
                         {Object.keys(users).length !== 0 && post.data.comments?.map((cmnt, key) => (
