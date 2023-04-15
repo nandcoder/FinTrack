@@ -1,14 +1,12 @@
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-// import { TextsmsTwoTone } from '@mui/icons-material';
 
-function BasicExample({ head, text, link, imgUrl }) {
+function BasicExample({ head, text,textColor, link, imgUrl }) {
   return (
-    <Card style={{ width: '18rem', height: '12rem', background: `url(${imgUrl})`, backgroundPosition: 'center center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
-      {/* <Card.Img variant="top" src={imgUrl} /> */}
+    <Card text={textColor} style={{ width: '18rem', height: '12rem',border: 'solid #c6c6c6 5px',borderRadius:'20px', background: `url(${imgUrl})`, backgroundPosition: 'center center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
       <Card.Body>
-        <Card.Title style={{ fontWeight: 'bolder', fontSize: '30px' }}>{head}</Card.Title>
+        <Card.Title style={{ fontWeight: 'bolder', fontSize: '30px',color:'black' }}>{head}</Card.Title>
         <Card.Text style={{
           float: "right",
           fontWeight: "500",
