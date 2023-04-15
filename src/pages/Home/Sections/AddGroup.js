@@ -123,7 +123,18 @@ const AddGroup = (props) => {
                         </FormErrorMessage>
                     </FormControl>
 
-
+                    <FormControl marginTop="2" isInvalid={errors.days}>
+                            <FormLabel htmlFor="days">Days</FormLabel>
+                            <Input
+                                type="number"
+                                name="days"
+                                placeholder="Number of days of the trip"
+                                {...register("days")}
+                            />
+                            <FormErrorMessage>
+                                {errors.days && errors.days.message}
+                            </FormErrorMessage>
+                        </FormControl>
 
                     <FormControl mt="2" isInvalid={errors.involved}>
                         <FormLabel htmlFor="involved">Add members to the group</FormLabel>

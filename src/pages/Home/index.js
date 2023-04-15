@@ -48,7 +48,6 @@ const Home = () => {
 useEffect(()=>{
     let total=0,negative=0,positive=0;
     transactions.forEach((transaction)=>{
-        console.log(transaction);
         const amt=transaction.data.amount/transaction.data.involved.length
         if(transaction.data.paidBy===user.uid){
             positive+=amt
