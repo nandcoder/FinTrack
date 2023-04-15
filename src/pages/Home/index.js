@@ -63,7 +63,7 @@ useEffect(()=>{
         peopleOwe:positive,
     }
     setAmount(updatedAmount)
-},[transactions])
+},[transactions,user])
 
     // const [spent, setSpent] = useState(0);
     // const [remain, setRemain] = useState(0);
