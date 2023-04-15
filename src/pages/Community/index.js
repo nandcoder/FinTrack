@@ -3,9 +3,7 @@ import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import { Button, Card, Container, ListGroup, Modal } from 'react-bootstrap'
-import { Button as BTN, Box, Avatar, FormControl, FormLabel, Select, FormErrorMessage, Input, useToast } from '@chakra-ui/react'
-// import {  Heading, useToast } from "@chakra-ui/react";
-
+import { Button as BTN, Box, Avatar, FormControl, FormLabel, Select, FormErrorMessage, Input, useToast, Badge } from '@chakra-ui/react'
 import { useForm } from "react-hook-form";
 import { addPostResolver } from "../../utils/validator/addPostResolver";
 import { AuthContext } from '../../components/Authentication/AuthProvider';
@@ -26,12 +24,11 @@ const Community = () => {
     const {
         handleSubmit,
         register,
-        formState: { errors, isSubmitting },
-        // setError,
-        // clearErrors,
+        formState: { errors },
     } = useForm({ resolver: addPostResolver });
+
     useEffect(() => {
-        let temp = [];
+        const temp = [];
         const groupIds = []
         groups.forEach(grp => groupIds.push(grp.id))
         db.collection("posts")
@@ -48,38 +45,34 @@ const Community = () => {
             })
             .finally(() => {
                 setPosts(temp)
-                console.log(temp);
+                // console.log(temp);
                 setLoading(false)
             });
     }, [user, requestPosts, groups]);
-    // const handleFile = (e) => {
-    //     console.log(e.target.value);
-    // }
     const addPost = ({ group, msg, image }) => {
         let groupData;
-        groups.forEach(grp => {
-            if (grp.id === group) {
-                groupData = grp;
+        if (group !== 'public') {
+            groups.forEach(grp => {
+                if (grp.id === group) {
+                    groupData = grp;
+                }
+            });
+        } else {
+            groupData = {
+                id: 'public',
+                data: {
+                    title: 'Public',
+                }
             }
-        });
-        console.log(image);
+        }
 
         const finalDoc = {
             groupId: groupData.id,
             groupTitle: groupData.data.title,
             authorId: user.uid,
-            authorName: users[user.uid].name,
             message: msg,
-            // imageLink: image,
-
-            // comments: [
-            //     {
-            //         senderId: user.uid,
-            //         comment: "Some message",
-            //     }
-            // ]
+            imageLink: image,
         }
-        if (image) finalDoc.imageLink = image
         db.collection("posts").add(finalDoc)
             .then((ref) => {
                 toast({
@@ -103,12 +96,27 @@ const Community = () => {
                 setRequestPosts(!requestPosts);
                 setLoading(false);
             })
-        // console.log('form submit');
-        // console.log(finalDoc, msg);
+    }
+    const deletePost = (id) => {
+        db.collection("posts").doc(id).delete().then(() => {
+            toast({
+                title: 'top-right toast',
+                position: 'top-right',
+                isClosable: true,
+                render: () => (
+                    <Box color='white' p={3} bg='red.500'>
+                        Post deleted successfully!!
+                    </Box>
+                ),
+            })
+            setRequestPosts(!requestPosts)
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
     }
     return (
         <Container style={{ width: '60%' }}>
-            {/* <Heading margin={'2%'}>Community -(WORK IN PROGRESS) </Heading> */}
             {user && Object.keys(users).length !== 0 && (
                 <Box style={{ display: 'flex', justifyContent: 'space-around' }}>
                     <Avatar name={users[user.uid].name} />
@@ -133,6 +141,7 @@ const Community = () => {
                                 {...register("group")}
                             /> */}
                             <Select isInvalid={errors.group} name='group' placeholder='Select group' {...register("group")} >
+                                <option value={'public'}>Public</option>
                                 {groups?.map((group) => (
                                     <option key={group.id} value={group.id}>{group.data.title}</option>
                                 ))}
@@ -177,7 +186,7 @@ const Community = () => {
                         <Button variant="secondary" onClick={handleClose}>
                             Close
                         </Button>
-                        <Button isLoading={isSubmitting} type="submit" variant="success">
+                        <Button type="submit" variant="success">
                             Submit
                         </Button>
                     </Modal.Footer>
@@ -223,7 +232,13 @@ const Community = () => {
             {loading ? <Loader /> : posts?.map((post) => (
                 <Card key={post.id} style={{ width: '100', margin: '10px auto' }}>
                     <Card.Body>
-                        <Card.Title>{post.data.authorName}</Card.Title>
+                        {Object.keys(users).length !== 0 && (
+                            <Card.Title>
+                                {users[post.data.authorId].name}
+                                {' '}
+                                <Badge borderRadius={'50px'} variant='outline' colorScheme={'green'}>{post.data.groupTitle}</Badge>
+                            </Card.Title>
+                        )}
                         <Card.Text>
                             {post.data.message}
                         </Card.Text>
@@ -231,7 +246,7 @@ const Community = () => {
                     {post.data.imageLink !== 'na' && post.data.imageLink !== 'NA' && <Card.Img variant="top" src={post.data.imageLink} />}
                     <Card.Body>
                         <Card.Link as={Button} variant={'primary'} href="#"><ChatBubbleOutlineRoundedIcon /> Comment</Card.Link>
-                        <Card.Link as={Button} variant={'danger'} href="#"><DeleteOutlineRoundedIcon /> Delete</Card.Link>
+                        <Card.Link as={Button} onClick={() => deletePost(post.id)} variant={'danger'}><DeleteOutlineRoundedIcon /> Delete</Card.Link>
                     </Card.Body>
                     <ListGroup className="list-group-flush">
                         {Object.keys(users).length !== 0 && post.data.comments?.map((cmnt, key) => (

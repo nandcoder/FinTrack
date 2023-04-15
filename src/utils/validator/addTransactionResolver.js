@@ -27,7 +27,25 @@ const addTransactionSchema = Joi.object({
             });
             return errors;
         }),
+    day: Joi.number()
+        .positive()
+        .integer()
+        .required()
+        .error((errors) => {
+            errors.forEach((err) => {
+                if (err.code === "number.positive") {
+                    err.message = "Day must be positive"
+                }
+                else if (err.code === "number.base") {
+                    err.message = "Day must be an integer"
+                }
+                else if (err.code === "number.empty") {
+                    err.message = "Day is required"
+                }
+            })
+        }),
     amount: Joi.number()
+        .positive()
         .required()
         .error((errors) => {
             errors.forEach((err) => {
@@ -37,35 +55,35 @@ const addTransactionSchema = Joi.object({
             })
         }),
     payer: Joi.string()
-        .email({
-            minDomainSegments: 2,
-            tlds: { allow: ["com", "net", "dev", "co", "in"] },
-        })
+        // .email({
+        //     minDomainSegments: 2,
+        //     tlds: { allow: ["com", "net", "dev", "co", "in"] },
+        // })
         .error((errors) => {
             errors.forEach((err) => {
                 if (err.code === "string.empty") {
                     err.message = "Email is required field";
-                } else if (err.code === "string.email") {
-                    err.message = "Please Enter a valid email";
                 }
+                // else if (err.code === "string.email") {
+                //     err.message = "Please Enter a valid email";
+                // }
             });
             return errors;
         }),
-    involved: Joi.string()
-        .email({
-            minDomainSegments: 2,
-            tlds: { allow: ["com", "net", "dev", "co", "in"] },
-        })
-        .error((errors) => {
-            errors.forEach((err) => {
-                if (err.code === "string.empty") {
-                    err.message = "Email is required field";
-                } else if (err.code === "string.email") {
-                    err.message = "Please Enter a valid email";
-                }
-            });
-            return errors;
-        }),
+    // involved: Joi.required()
+    // .array()
+    //     .items(Joi.string())
+    //     .min(1)
+    //     .error((errors) => {
+    //         errors.forEach((err) => {
+    //             if (err.code === "array.length") {
+    //                 err.message = "Select atleast one";
+    //             } else if (err.code === "string.email") {
+    //                 err.message = "Please Enter a valid email";
+    //             }
+    //         });
+    //         return errors;
+    //     }),
 });
 
 export const addTransactionResolver = joiResolver(addTransactionSchema);

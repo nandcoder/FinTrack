@@ -82,7 +82,7 @@ import img3 from "../../assets/images/t3.jpeg"
 //     )
 // }
 
-const colorss=["#B794F4","#c5fb9d", "#f5a9b8","#faf089","#90D2DA","#FEB2B2","#FBD38D","#DA90CB","#DB90CB"]
+const colorss = ["#B794F4", "#c5fb9d", "#f5a9b8", "#faf089", "#90D2DA", "#FEB2B2", "#FBD38D", "#DA90CB", "#DB90CB"]
 
 const Home = () => {
     const { user } = useContext(AuthContext);
@@ -130,14 +130,14 @@ const Home = () => {
                 />
                 <Card
                     className="fbcard"
-                    imgUrl={img1}
+                    imgUrl={img2}
                     head="I OWE PEOPLE"
                     text="₹ 3000"
                     link="/transaction"
                 />
                 <Card
                     className="fbcard"
-                    imgUrl={img2}
+                    imgUrl={img1}
                     head="PEOPLE OWE ME"
                     text="₹ 800"
                     link="/user"
@@ -149,7 +149,7 @@ const Home = () => {
                     <AddButton handler={handleShow} />
                     {show && <AddGroup show={show} handleClose={handleClose} />}
                     {loading ? <Loader /> :
-                        groups?.map((group,key) => (
+                        groups?.map((group, key) => (
                             <GroupCard id={group.id} data={group.data} key={group.id} color={key} colorss={colorss} />
                         ))}
                 </div>

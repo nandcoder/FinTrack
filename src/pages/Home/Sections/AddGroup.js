@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { FormControl, FormLabel, FormErrorMessage, Input, Box, useToast } from "@chakra-ui/react";
 import { Button, Modal } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { db } from '../../../utils/firebase'
 import { addGroupResolver } from '../../../utils/validator/addGroupResolver';
 import ListMail from './ListMail';
+import { AuthContext } from '../../../components/Authentication/AuthProvider';
 
 const AddGroup = (props) => {
+    const { user } = useContext(AuthContext)
     const { show, handleClose } = props;
     // const [members, setMembers] = useState([]);
     const [currEmail, setCurrEmail] = useState('');
@@ -56,7 +58,7 @@ const AddGroup = (props) => {
         const firstLetterCap = firstLetter.toUpperCase();
         const remainingLetters = title.slice(1);
         const finalTitle = firstLetterCap + remainingLetters;
-        const arr = [];
+        const arr = [user.uid];
         mails.forEach((mail) => {
             arr.push(mail.userId)
         })
@@ -65,6 +67,7 @@ const AddGroup = (props) => {
             desc,
             members: arr,
         }
+        console.log(finalDoc);
 
         db.collection("groups").add(finalDoc)
             .then((ref) => {
