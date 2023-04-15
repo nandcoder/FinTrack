@@ -2,7 +2,7 @@ import Table from 'react-bootstrap/Table';
 // import Badge from 'react-bootstrap/Badge';
 // import data from '../assets/TransactionData';
 // import { db } from '../utils/firebase';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from './Authentication/AuthProvider';
 import { DataContext } from './Authentication/DataProvider';
 import { Avatar, AvatarGroup, Badge, Box, IconButton, useToast } from '@chakra-ui/react';
@@ -41,7 +41,7 @@ function TransactionTable(props) {
     const { user } = useContext(AuthContext);
     const { transactions, users, requestTransactions, setRequestTransactions } = useContext(DataContext)
     // const [request, setRequest] = useState(true);
-    const [transactionData, setTransactionData] = useState([]);
+    // const [transactionData, setTransactionData] = useState([]);
     // const [loading, setLoading] = useState(true);
     // const [users, setUsers] = useState([]);
     const toast = useToast();

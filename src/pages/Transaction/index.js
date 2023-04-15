@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FormControl, FormLabel, FormErrorMessage, Input, Box, Heading, useToast, Select, Checkbox, Stack, CheckboxGroup } from "@chakra-ui/react";
-import { Button, Container, Form, Modal } from "react-bootstrap";
-import firebase from "firebase";
+import { FormControl, FormLabel, FormErrorMessage, Input, Box, Heading, useToast, Select, Stack } from "@chakra-ui/react";
+import { Button, Container, Modal } from "react-bootstrap";
 import TransactionTable from "../../components/TransactionTable";
 import { useForm } from "react-hook-form";
 import { addTransactionResolver } from "../../utils/validator/addTransactionResolver";
@@ -28,7 +27,7 @@ const Transaction = () => {
     const {
         handleSubmit,
         register,
-        formState: { errors, isSubmitting },
+        formState: { errors },
         // setError,
         // clearErrors,
     } = useForm({ resolver: addTransactionResolver });
@@ -263,33 +262,6 @@ const Transaction = () => {
                                 ))}
 
                             </Stack>
-                            <CheckboxGroup colorScheme='green' value={involved} >
-                                {/* <Form>
-                                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                            <Form.Label>Email address</Form.Label>
-                                        {['checkbox', 'checkbox'].map((type) => (
-                                            <div key={`default-${type}`} className="mb-3">
-                                                <Form.Check
-                                                    type={type}
-                                                    id={`default-${type}`}
-                                                    label={`default ${type}`}
-                                                />
-                                            </div>
-                                        ))}
-                                        </Form.Group>
-                                    </Form>
-
-
-                                    <CheckboxGroup defaultValue='Itachi'>
-                                        <Stack spacing='24px'>
-                                            <Checkbox name="involved" onSelect={handleInvolved}  id="1" value='Sasuke'>Sasuke</Checkbox>
-                                            <Checkbox name="involved" onSelect={handleInvolved}  id="2" value='Nagato'>Nagato</Checkbox>
-                                            <Checkbox name="involved" onSelect={handleInvolved}  id="3" value='Itachi'>Itachi</Checkbox>
-                                            <Checkbox name="involved" onSelect={handleInvolved}  id="4" value='Sage of the six Paths'>Sage of the six Paths</Checkbox>
-                                        </Stack>
-                                    </CheckboxGroup> */}
-
-                            </CheckboxGroup>
                             <FormErrorMessage>
                                 {errors.involved && errors.involved.message}
                             </FormErrorMessage>

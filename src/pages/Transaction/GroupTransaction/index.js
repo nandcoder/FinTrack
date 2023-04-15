@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { FormControl, FormLabel, FormErrorMessage, Input, Box, Heading, Select, Stack, useToast } from "@chakra-ui/react";
 import { Button, Container, Modal } from "react-bootstrap";
-import firebase from "firebase";
 import { useForm } from "react-hook-form";
 import { addTransactionResolver } from "../../../utils/validator/addTransactionResolver";
 import { db } from "../../../utils/firebase";
@@ -25,9 +24,7 @@ const GroupTransaction = () => {
     const {
         handleSubmit,
         register,
-        formState: { errors, isSubmitting },
-        // setError,
-        // clearErrors,
+        formState: { errors },
     } = useForm({ resolver: addTransactionResolver });
     const addTransaction = (data) => {
         const { title, desc, day, amount, payer } = data
