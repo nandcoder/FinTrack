@@ -18,11 +18,14 @@ const Transaction = () => {
     const [involved, setInvolved] = useState([]);
     const [showAdd, setShowAdd] = useState(false);
     const [showGroup, setShowGroup] = useState(false);
+    const [showFilter, setShowFilter] = useState(false);
     const [payerId, setPayerId] = useState(user.uid);
     const handleCloseGroup = () => setShowGroup(false);
+    const handleCloseFilter = () => setShowFilter(false);
     const handleCloseAdd = () => setShowAdd(false);
     const handleShowGroup = () => setShowGroup(true);
     const handleShowAdd = () => setShowAdd(true);
+    const handleShowFilter = () => setShowFilter(true);
     const toast = useToast();
     const {
         handleSubmit,
@@ -136,8 +139,42 @@ const Transaction = () => {
         <Container style={{ width: "80%" }}>
             <Heading display={"inline-block"} margin={"2%"}>Transactions</Heading>
             <Button variant="dark" style={{ float: "right", margin: "10px", borderRadius: "50%", backgroundColor: "black", height: "50px", width: "50px", color: '#04bef8' }} onClick={handleShowGroup}><AddRoundedIcon /></Button>
-            <Button variant="dark" style={{ float: "right", margin: "10px", borderRadius: "50%", backgroundColor: "black", height: "50px", width: "50px", color: '#04bef8' }} onClick={handleFilter}><FilterListIcon /></Button>
+            <Button variant="dark" style={{ float: "right", margin: "10px", borderRadius: "50%", backgroundColor: "black", height: "50px", width: "50px", color: '#04bef8' }} onClick={handleShowFilter}><FilterListIcon /></Button>
             <br />
+            <Modal show={showFilter} onHide={handleCloseFilter}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Filter By</Modal.Title>
+                </Modal.Header>
+                <form onSubmit={handleFilter}>
+                    <Modal.Body>
+                        <FormControl>
+                            <FormLabel htmlFor="group">Group</FormLabel>
+                            <Select required name='group' placeholder='Select a group' >
+                                {groups?.map((group) => (
+                                    <option key={group.id} value={group.id}>{group.data.title}</option>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel htmlFor="group">User</FormLabel>
+                            <Select required name='user' placeholder='Select a user' >
+                                {Object.keys(users)?.map((member) => (
+                                    <option key={member.userId} value={member.userId}>{member.name}</option>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseFilter}>
+                            Close
+                        </Button>
+                        <Button type="submit" variant="info">
+                            Apply
+                        </Button>
+                    </Modal.Footer>
+                </form>
+            </Modal>
+
             <Modal show={showGroup} onHide={handleCloseGroup}>
                 <Modal.Header closeButton>
                     <Modal.Title>Select Group</Modal.Title>
