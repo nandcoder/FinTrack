@@ -16,6 +16,7 @@ const Transaction = () => {
     const { groups, transactions, users, requestTransactions, setRequestTransactions } = useContext(DataContext)
     const [currentGroup, setCurrentGroup] = useState({});
     const [involved, setInvolved] = useState([]);
+    const [filters, setFilters] = useState({ groupId: '', userId: '' });
     const [showAdd, setShowAdd] = useState(false);
     const [showGroup, setShowGroup] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
@@ -27,6 +28,7 @@ const Transaction = () => {
     const handleShowAdd = () => setShowAdd(true);
     const handleShowFilter = () => setShowFilter(true);
     const toast = useToast();
+    // console.log(searchParams);
     const {
         handleSubmit,
         register,
@@ -77,8 +79,16 @@ const Transaction = () => {
             })
 
     }
-    const handleFilter = () => {
-
+    const handleFilter = (e) => {
+        e.preventDefault()
+        const groupId = e.target.group.value
+        const userId = e.target.user.value
+        console.log(groupId, userId);
+        setFilters({
+            groupId,
+            userId,
+        })
+        handleCloseFilter()
     }
     const handleGroupSelector = (e) => {
         e.preventDefault()
@@ -95,44 +105,24 @@ const Transaction = () => {
     }
     const handleChange = (event) => {
         const payerId = event.target.value;
-        // const arr = []
-        // groups.forEach(group => {
-        //     if (group.id === groupId) {
-        //         group.data.members.forEach(member => {
-        //             arr.push(member)
-        //         });
-        //     }
-        // });
         setPayerId(payerId)
-        // setCurrentGroup(event.target.value)
     };
     const handleInvolved = (e) => {
         const value = e.target.value;
         console.log(value);
-        // const prev = involved;
-        // prev.push(value)
-        // setInvolved(prev)
         if (!e.target.checked) {
             const prev = involved.filter(val => value !== val)
-            // involved.forEach(memberId => {
-            //     if (memberId !== value){ 
-            //         prev.push(memberId)
-            //     }
-            // });
-            console.log('pop', prev);
             setInvolved(prev)
         }
         if (e.target.checked) {
             const prev = involved;
             prev.push(value)
-            console.log('push', prev);
             setInvolved(prev)
         }
     }
     useEffect(() => {
         if (Object.keys(currentGroup).length !== 0) setInvolved(currentGroup.data.members)
     }, [currentGroup]);
-    // console.log(involved);
 
 
     return (
@@ -149,18 +139,20 @@ const Transaction = () => {
                     <Modal.Body>
                         <FormControl>
                             <FormLabel htmlFor="group">Group</FormLabel>
-                            <Select required name='group' placeholder='Select a group' >
+                            <Select name='group' placeholder='Select a group' >
                                 {groups?.map((group) => (
                                     <option key={group.id} value={group.id}>{group.data.title}</option>
                                 ))}
                             </Select>
                         </FormControl>
                         <FormControl>
-                            <FormLabel htmlFor="group">User</FormLabel>
-                            <Select required name='user' placeholder='Select a user' >
-                                {Object.keys(users)?.map((member) => (
-                                    <option key={member.userId} value={member.userId}>{member.name}</option>
-                                ))}
+                            <FormLabel htmlFor="user">User</FormLabel>
+                            <Select name='user' placeholder='Select a user' >
+                                {Object.keys(users).length !== 0 && Object.keys(users)?.map((memberId) => {
+                                    if (memberId !== user.uid)
+                                        return (<option key={memberId} value={memberId}>{users[memberId].name}</option>)
+                                    else return null
+                                })}
                             </Select>
                         </FormControl>
                     </Modal.Body>
@@ -321,7 +313,7 @@ const Transaction = () => {
             </Modal>
 
             {transactions.length === 0 || Object.keys(users).length === 0 ? <Loader /> : (
-                <TransactionTable />
+                <TransactionTable filters={filters} />
             )}
         </Container>
     );
