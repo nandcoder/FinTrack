@@ -20,7 +20,7 @@ function BasicExample({ head, text, link, imgUrl }) {
           {text}
         </Card.Text>
         <Link style={{ position: 'absolute', bottom: "5px", left: "30%" }} to={link}>
-          <Button variant="info">Go somewhere</Button>
+          <Button variant="info">Details</Button>
         </Link>
       </Card.Body>
     </Card>

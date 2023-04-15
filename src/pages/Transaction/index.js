@@ -32,9 +32,8 @@ const Transaction = () => {
         // setError,
         // clearErrors,
     } = useForm({ resolver: addTransactionResolver });
-    const addTransaction = (e) => {
-        const { title, desc, day, amount, payer } = e
-        console.log(e);
+    const addTransaction = (data) => {
+        const { title, desc, day, amount, payer } = data
         const firstLetter = title.charAt(0);
         const firstLetterCap = firstLetter.toUpperCase();
         const remainingLetters = title.slice(1);
@@ -52,7 +51,6 @@ const Transaction = () => {
             involved,
             status: "pending",
         }
-        console.log(finalDoc);
 
         db.collection("transactions").add(finalDoc)
             .then((ref) => {
@@ -107,7 +105,6 @@ const Transaction = () => {
         // setCurrentGroup(event.target.value)
     };
     const handleInvolved = (e) => {
-        console.log(e);
         const value = e.target.value;
         console.log(value);
         // const prev = involved;
@@ -133,7 +130,7 @@ const Transaction = () => {
     useEffect(() => {
         if (Object.keys(currentGroup).length !== 0) setInvolved(currentGroup.data.members)
     }, [currentGroup]);
-    console.log(involved);
+    // console.log(involved);
 
 
     return (
@@ -245,11 +242,29 @@ const Transaction = () => {
 
                         <FormControl as='fieldset' mt="2">
                             <FormLabel htmlFor="involved">Add members involved</FormLabel>
-                            {Object.keys(users).length !== 0 && Object.keys(currentGroup).length !== 0 && involved.length !== 0 && (
-                                <React.Fragment>
+                            <Stack spacing={[1, 5]} direction={['column', 'row']}>
+                                {Object.keys(users).length !== 0 && payerId && currentGroup.data && involved.length !== 0 && currentGroup.data.members?.map(memberId => (
+                                    <FormLabel>
+                                        <input
+                                            type="checkbox"
+                                            checked={involved.includes(memberId)}
+                                            disabled={memberId === payerId}
+                                            // name="involved"
+                                            // id="field-5"
+                                            // {...register('involved')}
+                                            onChange={handleInvolved}
+                                            // className="chakra-input css-1c6j008"
+                                            value={memberId}
+                                            placeholder={"Enter email to add"}
+                                        />
+                                        {users[memberId].name}
+                                        {/* <Checkbox isDisabled={memberId === payerId} key={users[memberId].userId} value={users[memberId].userId}>{users[memberId].name}</Checkbox> */}
+                                    </FormLabel>
+                                ))}
 
-
-                                    {/* <Form>
+                            </Stack>
+                            <CheckboxGroup colorScheme='green' value={involved} >
+                                {/* <Form>
                                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                             <Form.Label>Email address</Form.Label>
                                         {['checkbox', 'checkbox'].map((type) => (
@@ -262,8 +277,10 @@ const Transaction = () => {
                                             </div>
                                         ))}
                                         </Form.Group>
-                                    </Form> */}
-                                    {/* <CheckboxGroup defaultValue='Itachi'>
+                                    </Form>
+
+
+                                    <CheckboxGroup defaultValue='Itachi'>
                                         <Stack spacing='24px'>
                                             <Checkbox name="involved" onSelect={handleInvolved}  id="1" value='Sasuke'>Sasuke</Checkbox>
                                             <Checkbox name="involved" onSelect={handleInvolved}  id="2" value='Nagato'>Nagato</Checkbox>
@@ -271,33 +288,8 @@ const Transaction = () => {
                                             <Checkbox name="involved" onSelect={handleInvolved}  id="4" value='Sage of the six Paths'>Sage of the six Paths</Checkbox>
                                         </Stack>
                                     </CheckboxGroup> */}
-                                    {/* <FormHelperText>Select only if you're a fan.</FormHelperText> */}
 
-                                    <CheckboxGroup colorScheme='green' value={involved} >
-                                        <Stack spacing={[1, 5]} direction={['column', 'row']}>
-                                            {payerId && involved.length !== 0 && currentGroup.data.members?.map(memberId => (
-                                                <FormLabel>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={involved.includes(memberId)}
-                                                        disabled={memberId === payerId}
-                                                        // name="involved"
-                                                        // id="field-5"
-                                                        // {...register('involved')}
-                                                        onChange={handleInvolved}
-                                                        // className="chakra-input css-1c6j008"
-                                                        value={memberId}
-                                                        placeholder={"Enter email to add"}
-                                                    />
-                                                    {users[memberId].name}
-                                                    {/* <Checkbox isDisabled={memberId === payerId} key={users[memberId].userId} value={users[memberId].userId}>{users[memberId].name}</Checkbox> */}
-                                                </FormLabel>
-                                            ))}
-                                        </Stack>
-                                    </CheckboxGroup>
-                                </React.Fragment>
-
-                            )}
+                            </CheckboxGroup>
                             <FormErrorMessage>
                                 {errors.involved && errors.involved.message}
                             </FormErrorMessage>
@@ -319,7 +311,9 @@ const Transaction = () => {
                 </form>
             </Modal>
 
-            {transactions.length === 0 || Object.keys(users).length === 0 ? <Loader /> : <TransactionTable />}
+            {transactions.length === 0 || Object.keys(users).length === 0 ? <Loader /> : (
+                <TransactionTable />
+            )}
         </Container>
     );
 };
