@@ -42,6 +42,23 @@ const addGroupSchema = Joi.object({
             });
             return errors;
         }),
+        days: Joi.number()
+        .positive()
+        .integer()
+        .required()
+        .error((errors) => {
+            errors.forEach((err) => {
+                if (err.code === "number.positive") {
+                    err.message = "Days must be positive"
+                }
+                else if (err.code === "number.base") {
+                    err.message = "Days must be an integer"
+                }
+                else if (err.code === "number.empty") {
+                    err.message = "Days is required"
+                }
+            })
+        }),
     mails: Joi.array()
         .items(Joi.string())
         .unique()
