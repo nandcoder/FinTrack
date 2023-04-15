@@ -39,6 +39,7 @@ import { db } from '../utils/firebase';
 // }
 function TransactionTable(props) {
     const { user } = useContext(AuthContext);
+    const { userId, groupId } = props.filters
     const { transactions, users, requestTransactions, setRequestTransactions } = useContext(DataContext)
     // const [request, setRequest] = useState(true);
     // const [transactionData, setTransactionData] = useState([]);
@@ -160,82 +161,318 @@ function TransactionTable(props) {
             </thead>
             <tbody>
 
-                {Object.keys(users).length !== 0 && transactions?.map((transaction) => (
-                    <tr key={transaction.id}>
-                        <td><div className="d-flex align-items-center">
+                {Object.keys(users).length !== 0 && transactions?.map((transaction) => {
+                    if (userId && groupId) {
+                        return transaction.data.groupId === groupId && transaction.data.involved.includes(userId) && (
+                            <tr key={transaction.id}>
+                                <td><div className="d-flex align-items-center">
 
 
 
-                            <div className="ms-3">
-                                <p className="fw-bold mb-1">{transaction.data.groupTitle}</p>
-                                <p className="text-muted mb-0">
-                                    {users && transaction.data.paidBy === user.uid ? "YOU Paid" : `Paid by: ${users[transaction.data.paidBy].name}`}
-                                    {/* {transaction.data.paidBy && transaction.data.paidBy.userId === user.uid ? "YOU Paid" : `Paid by: ${transaction.data.paidBy && transaction.data.paidBy.name}`} */}
-                                </p>
-                            </div>
+                                    <div className="ms-3">
+                                        <p className="fw-bold mb-1">{transaction.data.groupTitle}</p>
+                                        <p className="text-muted mb-0">
+                                            {users && transaction.data.paidBy === user.uid ? "YOU Paid" : `Paid by: ${users[transaction.data.paidBy].name}`}
+                                            {/* {transaction.data.paidBy && transaction.data.paidBy.userId === user.uid ? "YOU Paid" : `Paid by: ${transaction.data.paidBy && transaction.data.paidBy.name}`} */}
+                                        </p>
+                                    </div>
 
 
-                        </div></td>
-                        <td>
-                            <p className="fw-bold mb-1">{transaction.data.title}</p>
-                            <p className="text-muted mb-0">{transaction.data.desc}</p>
-                        </td>
-                        <td>{transaction.data.day}</td>
-                        <td>{getDate(transaction.data.datetime)}</td>
-                        <td>
+                                </div></td>
+                                <td>
+                                    <p className="fw-bold mb-1">{transaction.data.title}</p>
+                                    <p className="text-muted mb-0">{transaction.data.desc}</p>
+                                </td>
+                                <td>{transaction.data.day}</td>
+                                <td>{getDate(transaction.data.datetime)}</td>
+                                <td>
 
-                            {transaction.data.status !== 'pending' ? (
-                                <div>
-                                    <Badge variant='solid' colorScheme='green'>
-                                        {transaction.data.status}
-                                    </Badge>
+                                    {transaction.data.status !== 'pending' ? (
+                                        <div>
+                                            <Badge variant='solid' colorScheme='green'>
+                                                {transaction.data.status}
+                                            </Badge>
+                                        </div>
+
+                                    ) : (
+                                        <div>
+                                            <Badge variant='outline' colorScheme='red'>
+                                                {transaction.data.status}
+                                            </Badge>
+                                        </div>
+                                    )}
+
+                                </td>
+
+                                <td style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', alignContent: 'center', justifyContent: 'center' }}>
+
+                                    <p>{transaction.data.amount}</p>
+                                    <div>
+                                        <AvatarGroup size='sm' max={5}>
+                                            {transaction.data.involved.map((member, key) => (
+                                                <Avatar key={key} name={users[member].name} src='' />
+                                            ))}
+                                        </AvatarGroup>
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    <IconButton
+                                        variant='outline'
+                                        colorScheme='red'
+                                        aria-label='Send email'
+                                        onClick={() => deleteTransaction(transaction.id)}
+                                        icon={<DeleteIcon />}
+                                    />
+                                    {" "}
+                                    {transaction.data.status === 'pending' && transaction.data.paidBy === user.uid && (
+                                        <IconButton
+                                            variant='outline'
+                                            colorScheme='green'
+                                            aria-label='Send email'
+                                            onClick={() => settleTransaction(transaction.id)}
+                                            icon={<CheckCircleOutlineRoundedIcon />}
+                                        />
+
+                                    )}
+                                </td>
+                            </tr>
+                        )
+                    }
+                    else if (userId) {
+                        return transaction.data.involved.includes(userId) && (
+                            <tr key={transaction.id}>
+                                <td><div className="d-flex align-items-center">
+
+
+
+                                    <div className="ms-3">
+                                        <p className="fw-bold mb-1">{transaction.data.groupTitle}</p>
+                                        <p className="text-muted mb-0">
+                                            {users && transaction.data.paidBy === user.uid ? "YOU Paid" : `Paid by: ${users[transaction.data.paidBy].name}`}
+                                            {/* {transaction.data.paidBy && transaction.data.paidBy.userId === user.uid ? "YOU Paid" : `Paid by: ${transaction.data.paidBy && transaction.data.paidBy.name}`} */}
+                                        </p>
+                                    </div>
+
+
+                                </div></td>
+                                <td>
+                                    <p className="fw-bold mb-1">{transaction.data.title}</p>
+                                    <p className="text-muted mb-0">{transaction.data.desc}</p>
+                                </td>
+                                <td>{transaction.data.day}</td>
+                                <td>{getDate(transaction.data.datetime)}</td>
+                                <td>
+
+                                    {transaction.data.status !== 'pending' ? (
+                                        <div>
+                                            <Badge variant='solid' colorScheme='green'>
+                                                {transaction.data.status}
+                                            </Badge>
+                                        </div>
+
+                                    ) : (
+                                        <div>
+                                            <Badge variant='outline' colorScheme='red'>
+                                                {transaction.data.status}
+                                            </Badge>
+                                        </div>
+                                    )}
+
+                                </td>
+
+                                <td style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', alignContent: 'center', justifyContent: 'center' }}>
+
+                                    <p>{transaction.data.amount}</p>
+                                    <div>
+                                        <AvatarGroup size='sm' max={5}>
+                                            {transaction.data.involved.map((member, key) => (
+                                                <Avatar key={key} name={users[member].name} src='' />
+                                            ))}
+                                        </AvatarGroup>
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    <IconButton
+                                        variant='outline'
+                                        colorScheme='red'
+                                        aria-label='Send email'
+                                        onClick={() => deleteTransaction(transaction.id)}
+                                        icon={<DeleteIcon />}
+                                    />
+                                    {" "}
+                                    {transaction.data.status === 'pending' && transaction.data.paidBy === user.uid && (
+                                        <IconButton
+                                            variant='outline'
+                                            colorScheme='green'
+                                            aria-label='Send email'
+                                            onClick={() => settleTransaction(transaction.id)}
+                                            icon={<CheckCircleOutlineRoundedIcon />}
+                                        />
+
+                                    )}
+                                </td>
+                            </tr>
+                        )
+                    }
+                    else if (groupId) {
+                        return transaction.data.groupId === groupId && (
+                            <tr key={transaction.id}>
+                                <td><div className="d-flex align-items-center">
+
+
+
+                                    <div className="ms-3">
+                                        <p className="fw-bold mb-1">{transaction.data.groupTitle}</p>
+                                        <p className="text-muted mb-0">
+                                            {users && transaction.data.paidBy === user.uid ? "YOU Paid" : `Paid by: ${users[transaction.data.paidBy].name}`}
+                                            {/* {transaction.data.paidBy && transaction.data.paidBy.userId === user.uid ? "YOU Paid" : `Paid by: ${transaction.data.paidBy && transaction.data.paidBy.name}`} */}
+                                        </p>
+                                    </div>
+
+
+                                </div></td>
+                                <td>
+                                    <p className="fw-bold mb-1">{transaction.data.title}</p>
+                                    <p className="text-muted mb-0">{transaction.data.desc}</p>
+                                </td>
+                                <td>{transaction.data.day}</td>
+                                <td>{getDate(transaction.data.datetime)}</td>
+                                <td>
+
+                                    {transaction.data.status !== 'pending' ? (
+                                        <div>
+                                            <Badge variant='solid' colorScheme='green'>
+                                                {transaction.data.status}
+                                            </Badge>
+                                        </div>
+
+                                    ) : (
+                                        <div>
+                                            <Badge variant='outline' colorScheme='red'>
+                                                {transaction.data.status}
+                                            </Badge>
+                                        </div>
+                                    )}
+
+                                </td>
+
+                                <td style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', alignContent: 'center', justifyContent: 'center' }}>
+
+                                    <p>{transaction.data.amount}</p>
+                                    <div>
+                                        <AvatarGroup size='sm' max={5}>
+                                            {transaction.data.involved.map((member, key) => (
+                                                <Avatar key={key} name={users[member].name} src='' />
+                                            ))}
+                                        </AvatarGroup>
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    <IconButton
+                                        variant='outline'
+                                        colorScheme='red'
+                                        aria-label='Send email'
+                                        onClick={() => deleteTransaction(transaction.id)}
+                                        icon={<DeleteIcon />}
+                                    />
+                                    {" "}
+                                    {transaction.data.status === 'pending' && transaction.data.paidBy === user.uid && (
+                                        <IconButton
+                                            variant='outline'
+                                            colorScheme='green'
+                                            aria-label='Send email'
+                                            onClick={() => settleTransaction(transaction.id)}
+                                            icon={<CheckCircleOutlineRoundedIcon />}
+                                        />
+
+                                    )}
+                                </td>
+                            </tr>
+                        )
+                    }
+                    else return (
+                        <tr key={transaction.id}>
+                            <td><div className="d-flex align-items-center">
+
+
+
+                                <div className="ms-3">
+                                    <p className="fw-bold mb-1">{transaction.data.groupTitle}</p>
+                                    <p className="text-muted mb-0">
+                                        {users && transaction.data.paidBy === user.uid ? "YOU Paid" : `Paid by: ${users[transaction.data.paidBy].name}`}
+                                        {/* {transaction.data.paidBy && transaction.data.paidBy.userId === user.uid ? "YOU Paid" : `Paid by: ${transaction.data.paidBy && transaction.data.paidBy.name}`} */}
+                                    </p>
                                 </div>
 
-                            ) : (
+
+                            </div></td>
+                            <td>
+                                <p className="fw-bold mb-1">{transaction.data.title}</p>
+                                <p className="text-muted mb-0">{transaction.data.desc}</p>
+                            </td>
+                            <td>{transaction.data.day}</td>
+                            <td>{getDate(transaction.data.datetime)}</td>
+                            <td>
+
+                                {transaction.data.status !== 'pending' ? (
+                                    <div>
+                                        <Badge variant='solid' colorScheme='green'>
+                                            {transaction.data.status}
+                                        </Badge>
+                                    </div>
+
+                                ) : (
+                                    <div>
+                                        <Badge variant='outline' colorScheme='red'>
+                                            {transaction.data.status}
+                                        </Badge>
+                                    </div>
+                                )}
+
+                            </td>
+
+                            <td style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', alignContent: 'center', justifyContent: 'center' }}>
+
+                                <p>{transaction.data.amount}</p>
                                 <div>
-                                    <Badge variant='outline' colorScheme='red'>
-                                        {transaction.data.status}
-                                    </Badge>
+                                    <AvatarGroup size='sm' max={5}>
+                                        {transaction.data.involved.map((member, key) => (
+                                            <Avatar key={key} name={users[member].name} src='' />
+                                        ))}
+                                    </AvatarGroup>
                                 </div>
-                            )}
 
-                        </td>
+                            </td>
 
-                        <td style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', alignContent: 'center', justifyContent: 'center' }}>
-
-                            <p>{transaction.data.amount}</p>
-                            <div>
-                                <AvatarGroup size='sm' max={5}>
-                                    {transaction.data.involved.map((member, key) => (
-                                        <Avatar key={key} name={users[member].name} src='' />
-                                    ))}
-                                </AvatarGroup>
-                            </div>
-
-                        </td>
-
-                        <td>
-                            <IconButton
-                                variant='outline'
-                                colorScheme='red'
-                                aria-label='Send email'
-                                onClick={() => deleteTransaction(transaction.id)}
-                                icon={<DeleteIcon />}
-                            />
-                            {" "}
-                            {transaction.data.status === 'pending' && transaction.data.paidBy === user.uid && (
+                            <td>
                                 <IconButton
                                     variant='outline'
-                                    colorScheme='green'
+                                    colorScheme='red'
                                     aria-label='Send email'
-                                    onClick={() => settleTransaction(transaction.id)}
-                                    icon={<CheckCircleOutlineRoundedIcon />}
+                                    onClick={() => deleteTransaction(transaction.id)}
+                                    icon={<DeleteIcon />}
                                 />
+                                {" "}
+                                {transaction.data.status === 'pending' && transaction.data.paidBy === user.uid && (
+                                    <IconButton
+                                        variant='outline'
+                                        colorScheme='green'
+                                        aria-label='Send email'
+                                        onClick={() => settleTransaction(transaction.id)}
+                                        icon={<CheckCircleOutlineRoundedIcon />}
+                                    />
 
-                            )}
-                        </td>
-                    </tr>
-                )
+                                )}
+                            </td>
+                        </tr>
+                    )
+                }
                 )}
             </tbody>
         </Table>

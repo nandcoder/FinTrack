@@ -24,6 +24,7 @@ function CollapsibleExample() {
                             </>
                         )}
                         <Link className='nav-router' to={'/community'}>Community</Link>
+                        <Link className='nav-router' to={'/team'}>Team</Link>
                     </Nav>
                     {user && (
                         <Nav>
