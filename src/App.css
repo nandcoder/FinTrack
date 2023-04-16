@@ -3,8 +3,21 @@
   min-height: 70vh;
   /* text-align: center; */
 }
-.groupCardHover:hover{
+.groupCardHover:hover {
   transform: scale(1.2);
+}
+.team-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 10px -10px;
+}
+.remove-effect {
+  margin: 0;
+  background: inherit;
+  width: inherit;
+}
+.remove-effect:hover {
+  transform: scaleY(0.2);
+  box-shadow: none;
 }
 
 /* .App-logo {
@@ -64,7 +77,7 @@ footer {
   bottom: 0;
   background-color: rgba(59, 59, 59, 0.5);
   text-align: center;
-  font-weight: 600;
+  font-weight: 500;
   height: 10vh;
   width: auto;
   margin: auto;
