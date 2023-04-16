@@ -42,7 +42,7 @@ const addGroupSchema = Joi.object({
             });
             return errors;
         }),
-        days: Joi.number()
+    days: Joi.number()
         .positive()
         .integer()
         .required()
