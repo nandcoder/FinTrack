@@ -83,7 +83,6 @@ const Transaction = () => {
         e.preventDefault()
         const groupId = e.target.group.value
         const userId = e.target.user.value
-        console.log(groupId, userId);
         setFilters({
             groupId,
             userId,
@@ -313,7 +312,7 @@ const Transaction = () => {
             </Modal>
 
             {transactions.length === 0 || Object.keys(users).length === 0 ? <Loader /> : (
-                <TransactionTable filters={filters} />
+                <TransactionTable id={filters.userId} group={filters.groupId} />
             )}
         </Container>
     );

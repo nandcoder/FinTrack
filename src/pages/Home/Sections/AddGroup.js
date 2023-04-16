@@ -6,9 +6,11 @@ import { db } from '../../../utils/firebase'
 import { addGroupResolver } from '../../../utils/validator/addGroupResolver';
 import ListMail from './ListMail';
 import { AuthContext } from '../../../components/Authentication/AuthProvider';
+import { DataContext } from '../../../components/Authentication/DataProvider';
 
 const AddGroup = (props) => {
     const { user } = useContext(AuthContext)
+    const { requestGroups, setRequestGroups } = useContext(DataContext)
     const { show, handleClose } = props;
     // const [members, setMembers] = useState([]);
     const [currEmail, setCurrEmail] = useState('');
@@ -21,7 +23,7 @@ const AddGroup = (props) => {
     const {
         handleSubmit,
         register,
-        formState: { errors, isSubmitting },
+        formState: { errors },
         trigger,
         setError,
         // clearErrors,
@@ -52,8 +54,7 @@ const AddGroup = (props) => {
     }
 
 
-    const addGroup = ({ title, desc }) => {
-        console.log(title, desc);
+    const addGroup = ({ title, days, desc }) => {
         const firstLetter = title.charAt(0);
         const firstLetterCap = firstLetter.toUpperCase();
         const remainingLetters = title.slice(1);
@@ -64,10 +65,10 @@ const AddGroup = (props) => {
         })
         const finalDoc = {
             title: finalTitle,
+            days,
             desc,
             members: arr,
         }
-        console.log(finalDoc);
 
         db.collection("groups").add(finalDoc)
             .then((ref) => {
@@ -86,7 +87,10 @@ const AddGroup = (props) => {
             .catch((error) => {
                 console.error("Error writing document: ", error);
             })
-            .finally(() => handleClose())
+            .finally(() => {
+                handleClose()
+                setRequestGroups(!requestGroups)
+            })
 
     }
 
@@ -95,7 +99,7 @@ const AddGroup = (props) => {
             <Modal.Header closeButton>
                 <Modal.Title>Add Group</Modal.Title>
             </Modal.Header>
-            <form onSubmit={() => handleSubmit(addGroup)}>
+            <form onSubmit={handleSubmit(addGroup)}>
                 <Modal.Body>
                     <FormControl isInvalid={errors.title}>
                         <FormLabel htmlFor="title">Title</FormLabel>
@@ -124,17 +128,17 @@ const AddGroup = (props) => {
                     </FormControl>
 
                     <FormControl marginTop="2" isInvalid={errors.days}>
-                            <FormLabel htmlFor="days">Days</FormLabel>
-                            <Input
-                                type="number"
-                                name="days"
-                                placeholder="Number of days of the trip"
-                                {...register("days")}
-                            />
-                            <FormErrorMessage>
-                                {errors.days && errors.days.message}
-                            </FormErrorMessage>
-                        </FormControl>
+                        <FormLabel htmlFor="days">Days</FormLabel>
+                        <Input
+                            type="number"
+                            name="days"
+                            placeholder="Number of days of the trip"
+                            {...register("days")}
+                        />
+                        <FormErrorMessage>
+                            {errors.days && errors.days.message}
+                        </FormErrorMessage>
+                    </FormControl>
 
                     <FormControl mt="2" isInvalid={errors.involved}>
                         <FormLabel htmlFor="involved">Add members to the group</FormLabel>
@@ -168,7 +172,7 @@ const AddGroup = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button isLoading={isSubmitting} type="submit" variant="success">
+                    <Button type="submit" variant="success">
                         Submit
                     </Button>
                 </Modal.Footer>
