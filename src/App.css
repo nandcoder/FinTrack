@@ -10,14 +10,12 @@
   transform: translateY(-8px);
   box-shadow: 0 10px 10px -10px;
 }
-.remove-effect {
+.team-card a div {
   margin: 0;
+}
+.remove-effect {
   background: inherit;
   width: inherit;
-}
-.remove-effect:hover {
-  transform: scaleY(0.2);
-  box-shadow: none;
 }
 
 /* .App-logo {
