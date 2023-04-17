@@ -20,37 +20,36 @@ This website is designed to make it easier to divide up the bill among multiple 
 The website then determines how much each participant should pay after considering everyone's share. 
 The website consists of following pages:=
   1. Home page:
-    A. Home page shows Three Cards:
-      a) Total Expenditure
-      b) I owe people
-      c) People owe me
-    B. It shows different cards for different groups.
-  	    For each group, we can see
-      a) All the transactions related to that group.
-      b) All the users are involved in that group.
-      c) Number of days of the trip.
-    C. We can add new Group.
+  	A. Home page shows Three Cards:
+		a) Total Expenditure
+		b) I owe people
+		c) People owe me
+	B. It shows different cards for different groups. For each group, we can see:
+      		a) All the transactions related to that group.
+      		b) All the users are involved in that group.
+      		c) Number of days of the trip.
+    	C. We can add new Group.
     
   2. User Page: 
-	  A. The user page shows the list of other users with which the user is involved in any transaction.
-	  B. The table shows a list of users with the following information: 
-  	  a) User: the user with which there ever happened any transactions in any group.
-     	b) Status: It shows whether I've lent the money(Green badge) (or) I have borrowed the money(red badge)
-     	c) Amount: The total amount that is sum total of all the transactions ever happened between me and that user. If borrowed, the amount will be shown negative, red. If lent, the amount will be shown positive, green.
-      d) Details:By clicking on this button, You got to see all the transactions details where you have involved with that user.
+  	A. The user page shows the list of other users with which the user is involved in any transaction.
+	B. The table shows a list of users with the following information: 
+  		a) User: the user with which there ever happened any transactions in any group.
+		b) Status: It shows whether I've lent the money(Green badge) (or) I have borrowed the money(red badge)
+		c) Amount: The total amount that is sum total of all the transactions ever happened between me and that user. If borrowed, the amount will be shown negative, red. If lent, the amount will be shown positive, green.
+		d) Details:By clicking on this button, You got to see all the transactions details where you have involved with that user.
          
   3. Transaction page:
-    A. The Transaction page shows All the transactions.
-		  a) User who had paid for others.
-		  b) Users who are involved in that transaction.
-		  c) Date and day 
-		  d) Status: Pending(Red),Settled(Green) 
-		  e) Actions:It shows two Actions:Delete & Settled
-    B. We can filter the transactions on the following basis:
-		  a) Group-wise filter
-		  b) User-wise filter
-		  c) Group+User- wise filter
-    C. We can add a new Transaction by clicking on the add button.
+  	A. The Transaction page shows All the transactions.
+		a) User who had paid for others.
+		b) Users who are involved in that transaction.
+		c) Date and day 
+		d) Status: Pending(Red),Settled(Green) 
+		e) Actions:It shows two Actions:Delete & Settled
+    	B. We can filter the transactions on the following basis:
+    		a) Group-wise filter
+		b) User-wise filter
+		c) Group+User- wise filter
+	C. We can add a new Transaction by clicking on the add button.
     
   4. Community Page: here we can have general communication. We can tag a group or a person  while adding post. We can also add a comment and we can delete a post if we want.
 
@@ -70,5 +69,5 @@ We understand the need for security and therefore the app uses encryption powere
 applications, and you have to enter userID and password or sign in to access the app, Then only you got to see the details of all the transaction and trip.
 
 ## Conclusion
-In conclusion, splitting bills with friends, family, or colleagues has never been easier with this app. The app comes loaded with features such as splitting 
+In conclusion, splitting bills with friends, family, or colleagues has been made easier with this app. The app comes loaded with features such as splitting 
 bills, requesting money, tracking expenses, and monitoring spending patterns. It is secure, user-friendly and can be run on any web browser without downloading. So, next time you go out with friends or family, remember to split your bills with this app!
