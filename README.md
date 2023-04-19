@@ -1,9 +1,9 @@
 # FinTrack <a href="http://34.131.169.168/">|AMD instance hosted link|</a> <a href="https://youtu.be/GW1fLwpzIvk">|Demo Video|</a>
-A Web App built for Splitting bill among friends while on a trip.
+A Web App built for splitting bill among friends while on a trip.
 
-# PPT Link showing the IDEA and the SOLUTION - <a href="https://drive.google.com/file/d/1ToIpn5ARSm9cpdmct7M6TuMYlO6rvwg1/view?usp=sharing">View File</a>
+## PPT Link showing the IDEA and the SOLUTION - <a href="https://drive.google.com/file/d/1ToIpn5ARSm9cpdmct7M6TuMYlO6rvwg1/view?usp=sharing">View File</a>
 
-# Details about the app
+## Details about the app
 
 While on a long trip, Splitting bills has always been a headache, be it at a restaurant, auto fare, Hotel check-ins. It often leads to misunderstandings and 
 sometimes even to the end of friendship. Fortunately, we live in a digital era where technology can solve this problem for us. With this we got the idea of 
