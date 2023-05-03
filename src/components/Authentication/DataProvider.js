@@ -15,7 +15,7 @@ export const DataProvider = ({ children }) => {
     const [requestUsers, setRequestUsers] = useState(true);
     useEffect(() => {
         const temp = [];
-        const tempFriends = []
+        // const tempFriends = []
         db.collection("transactions")
             .where("involved", "array-contains", user.uid)
             .get()
@@ -28,10 +28,10 @@ export const DataProvider = ({ children }) => {
                         id,
                         data,
                     }
-                    data.involved.forEach(personId => {
-                        if (tempFriends.includes(personId)) { }
-                        else tempFriends.push(personId)
-                    });
+                    // data.involved.forEach(personId => {
+                    //     if (tempFriends.includes(personId)) { }
+                    //     else tempFriends.push(personId)
+                    // });
                     temp.push(finalTransaction);
                 })
             })
@@ -39,7 +39,7 @@ export const DataProvider = ({ children }) => {
                 console.log("Error getting documents: ", error);
             })
             .finally(() => {
-                setFriends(tempFriends);
+                // setFriends(tempFriends);
                 setTransactions(temp);
             });
 
@@ -71,7 +71,8 @@ export const DataProvider = ({ children }) => {
             })
     }, [friends, requestUsers]);
     useEffect(() => {
-        let temp = [];
+        const temp = [];
+        const tempFriends = []
         db.collection("groups")
             .where("members", "array-contains", user.uid)
             .get()
@@ -79,12 +80,18 @@ export const DataProvider = ({ children }) => {
                 data.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                     temp.push({ id: doc.id, data: doc.data() });
+                    const data = doc.data();
+                    data.members.forEach(personId => {
+                        if (tempFriends.includes(personId)) { }
+                        else tempFriends.push(personId)
+                    });
                 });
             })
             .catch((error) => {
                 console.log("Error getting documents: ", error);
             })
             .finally(() => {
+                setFriends(tempFriends);
                 setGroups(temp)
             });
     }, [user, requestGroups]);
