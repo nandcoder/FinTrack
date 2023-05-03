@@ -16,16 +16,16 @@ const colorss = ["#B794F4", "#c5fb9d", "#f5a9b8", "#faf089", "#90D2DA", "#FEB2B2
 
 const Home = () => {
     const { user } = useContext(AuthContext);
-    const { transactions}=useContext(DataContext);
+    const { transactions } = useContext(DataContext);
     const [groups, setGroups] = useState([]);
-    const [amount,setAmount]=useState({total:0,iOwe:0,peopleOwe:0})
+    const [amount, setAmount] = useState({ total: 0, iOwe: 0, peopleOwe: 0 })
     const [loading, setLoading] = useState(true);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        let temp = [];
+        const temp = [];
         db.collection("groups")
             .where("members", "array-contains", user.uid)
             .get()
@@ -45,25 +45,25 @@ const Home = () => {
 
     }, [user]);
 
-useEffect(()=>{
-    let total=0,negative=0,positive=0;
-    transactions.forEach((transaction)=>{
-        const amt=transaction.data.amount/transaction.data.involved.length
-        if(transaction.data.paidBy===user.uid){
-            positive+=amt
-            total+=amt
-        }else{
-            negative-=amt
-            total+=amt
+    useEffect(() => {
+        let total = 0, negative = 0, positive = 0;
+        transactions.forEach((transaction) => {
+            const amt = transaction.data.amount / transaction.data.involved.length
+            if (transaction.data.paidBy === user.uid) {
+                positive += amt
+                total += amt
+            } else {
+                negative -= amt
+                total += amt
+            }
+        })
+        const updatedAmount = {
+            total: total,
+            iOwe: negative,
+            peopleOwe: positive,
         }
-    })
-    const updatedAmount={
-        total:total,
-        iOwe:negative,
-        peopleOwe:positive,
-    }
-    setAmount(updatedAmount)
-},[transactions,user])
+        setAmount(updatedAmount)
+    }, [transactions, user])
 
     // const [spent, setSpent] = useState(0);
     // const [remain, setRemain] = useState(0);
