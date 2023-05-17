@@ -1,4 +1,4 @@
-# FinTrack <a href="http://34.131.169.168/">|AMD instance hosted link|</a> <a href="https://youtu.be/GW1fLwpzIvk">|Demo Video|</a>
+# FinTrack <a href="https://fintrack-nrj.netlify.app/">|Deployed link|</a> <a href="https://youtu.be/GW1fLwpzIvk">|Demo Video|</a>
 A Web App built for splitting bill among friends while on a trip.
 
 ## PPT Link showing the IDEA and the SOLUTION - <a href="https://drive.google.com/file/d/1ToIpn5ARSm9cpdmct7M6TuMYlO6rvwg1/view?usp=sharing">View File</a>
