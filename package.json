@@ -1,5 +1,5 @@
 {
-  "name": "fintrack",
+  "name": "fintracker",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -24,7 +24,6 @@
     "react-hook-form": "^7.6.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
-    "react-ui-cards": "^3.1.0",
     "styled-components": "^5.3.9",
     "web-vitals": "^1.0.1"
   },
