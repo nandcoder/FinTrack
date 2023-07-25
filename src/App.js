@@ -14,7 +14,7 @@ import Team from "./pages/Team";
 import GroupTransaction from "./pages/Transaction/GroupTransaction";
 import UserTransaction from "./pages/Transaction/UserTransaction";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import './App.css'
+import './App.css';
 
 
 function App() {
@@ -34,6 +34,7 @@ function App() {
           <Route path="/forgot-password" component={ForgotPassword} />
           <Route path="/reset-password" component={ResetPassword} />
           <Route path="/team" component={Team} />
+          <Route path="*" element={()=> "404"}/>
         </Switch>
       </div>
       <Footer />

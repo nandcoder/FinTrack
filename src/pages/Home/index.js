@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import Card from "../../components/Card";
 import AddGroup from "./Sections/AddGroup";
 import GroupCard from "./Sections/GroupCard";
@@ -73,30 +73,38 @@ const Home = () => {
     return (
         <>
             <Container id="feedback">
-                <Card
-                    className="fbcard"
-                    imgUrl={img3}
-                    head="Total Expenditure"
-                    text={`₹ ${amount.total}`}
-                    textColor={'info'}
-                    link="/transaction"
-                />
-                <Card
-                    className="fbcard"
-                    imgUrl={img2}
-                    head="I OWE PEOPLE"
-                    text={`₹ ${amount.iOwe}`}
-                    textColor={'danger'}
-                    link="/transaction"
-                />
-                <Card
-                    className="fbcard"
-                    imgUrl={img1}
-                    head="PEOPLE OWE ME"
-                    text={`₹ ${amount.peopleOwe}`}
-                    textColor={'success'}
-                    link="/user"
-                />
+                <Row>
+                    <Col>
+                        <Card
+                            className="fbcard"
+                            imgUrl={img3}
+                            head="Total Expenditure"
+                            text={`₹ ${amount.total}`}
+                            textColor={'info'}
+                            link="/transaction"
+                        />
+                    </Col>
+                    <Col>
+                        <Card
+                            className="fbcard"
+                            imgUrl={img2}
+                            head="I OWE PEOPLE"
+                            text={`₹ ${amount.iOwe}`}
+                            textColor={'danger'}
+                            link="/transaction"
+                        />
+                    </Col>
+                    <Col>
+                        <Card
+                            className="fbcard"
+                            imgUrl={img1}
+                            head="PEOPLE OWE ME"
+                            text={`₹ ${amount.peopleOwe}`}
+                            textColor={'success'}
+                            link="/user"
+                        />
+                    </Col>
+                </Row>
             </Container>
             <br />
             <Container id="content">
