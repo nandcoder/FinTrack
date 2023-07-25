@@ -1,5 +1,4 @@
 import { useContext, useEffect } from "react";
-import { Box } from "@chakra-ui/layout";
 
 import {
   FormControl,
@@ -7,6 +6,7 @@ import {
   FormErrorMessage,
   Input,
   Button,
+  Box,
   Text,
   Link,
   useToast,
