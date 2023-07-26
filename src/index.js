@@ -6,7 +6,6 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from "./components/Authentication/AuthProvider";
-import "./index.css"
 
 ReactDOM.render(
   <React.StrictMode>
