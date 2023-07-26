@@ -3,19 +3,31 @@
   min-height: 70vh;
   /* text-align: center; */
 }
+
 .groupCardHover:hover {
   transform: scale(1.2);
 }
+
 .team-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 10px 10px -10px;
 }
+
 .team-card a div {
   margin: 0;
 }
+
 .remove-effect {
   background: inherit;
   width: inherit;
+}
+
+.col {
+  display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 /* .App-logo {
@@ -67,9 +79,11 @@ a:hover {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out;
 }
+
 .nav-router:hover {
   color: var(--bs-nav-link-hover-color);
 }
+
 footer {
   /* position: fixed; */
   bottom: 0;
