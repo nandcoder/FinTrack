@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { Img } from '@chakra-ui/react';
 import { ButtonGroup, Container, Dropdown, Nav, Navbar } from 'react-bootstrap';
 import Profile from "./Authentication/Profile"
@@ -12,19 +12,18 @@ function CollapsibleExample() {
     return (
         <Navbar sticky='top' collapseOnSelect expand="lg" style={{ background: 'rgb(36 36 36)', minHeight: '10vh' }} variant="dark">
             <Container>
-                <Navbar.Brand as={Link} to='/'><Img src={RupeeIcon} height={'5'} width={'5'} display='inline-flex' /> FinTrack</Navbar.Brand>
+                <Navbar.Brand as={Link} to='/'><Img src={RupeeIcon} height={'5'} width={'5'} display='inline-flex' /> FinTracker</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
                         {user && (
-                            <>
+                            <React.Fragment>
                                 <Link className='nav-router' to={'/'}>Home</Link>
                                 <Link className='nav-router' to={'/user'}>User</Link>
                                 <Link className='nav-router' to={'/transaction'}>Transaction</Link>
-                            </>
+                            </React.Fragment>
                         )}
                         <Link className='nav-router' to={'/community'}>Community</Link>
-                        <Link className='nav-router' to={'/team'}>Team</Link>
                     </Nav>
                     {user && (
                         <Nav>

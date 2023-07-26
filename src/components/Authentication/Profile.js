@@ -15,7 +15,6 @@ const Profile = () => {
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
-                    console.log(doc.id, " => ", doc.data());
                     const res = {
                         id: doc.id,
                         data: doc.data(),
@@ -29,7 +28,6 @@ const Profile = () => {
             })
             .finally(() => {
                 setUserData(arr)
-                console.log("data", arr)
             })
     }, [user])
 
