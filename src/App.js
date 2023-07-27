@@ -1,4 +1,4 @@
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route,Redirect } from "react-router-dom";
 import Signup from "./pages/Signup"
 import Login from "./pages/Login"
 import ForgotPassword from "./pages/ForgotPassword"
@@ -33,6 +33,7 @@ function App() {
           <Route path="/signup" component={Signup} />
           <Route path="/forgot-password" component={ForgotPassword} />
           <Route path="/reset-password" component={ResetPassword} />
+          <Route path="*" component={() => <Redirect to={'/login'}/> } />
           {/* <Route path="/team" component={Team} /> */}
         </Switch>
       </div>
