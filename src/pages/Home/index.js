@@ -50,7 +50,8 @@ const Home = () => {
         transactions.forEach((transaction) => {
             const amt = transaction.data.amount / transaction.data.involved.length
             if (transaction.data.paidBy === user.uid) {
-                positive += amt
+                const paybackCount = transaction.data.involved.length - 1;
+                positive += amt * paybackCount
                 total += amt
             } else {
                 negative -= amt
