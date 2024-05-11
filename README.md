@@ -69,5 +69,5 @@ We understand the need for security and therefore the app uses encryption powere
 applications, and you have to enter userID and password or sign in to access the app, Then only you got to see the details of all the transaction and trip.
 
 ## Conclusion
-In conclusion, splitting bills with friends, family, or colleagues has been made easier with this app. The app comes loaded with features such as splitting 
+In conclusion, splitting bills with friends, family, or colleagues has been made easier with this app. The app comes loaded with features such as splitting (1)
 bills, requesting money, tracking expenses, and monitoring spending patterns. It is secure, user-friendly and can be run on any web browser without downloading. So, next time you go out with friends or family, remember to split your bills with this app!
